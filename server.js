@@ -12,12 +12,13 @@ var config = require('./config');
 
 
 var loki = require('lokijs'),
-db = new loki('test.json');
+db = new loki('polls.json');
 
 // Configuración
 var port = process.env.PORT || 3000;
 app.set('polleitor', config.secret);
 app.set('polls',config.polls );
+app.set('loki',db);
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -26,13 +27,15 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // start DB
+var polls = new Array();
 for ( var p in config.polls ) {
     var this_poll = db.addCollection( p );
     for ( q in config.polls[p] ) {
-	console.log(config.polls[p][q]);
 	this_poll.insert( config.polls[p][q] );
     }
+    polls.push( this_poll);
 }
+app.set('these_polls',polls );
 
 // Rutas
 app.get('/:id', function(req, res) {
