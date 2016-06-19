@@ -21,17 +21,9 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // Rutas
-
-app.get('/', function(req, res) {
-    // Obtiene useragent con el que se ha hecho la petición
+app.get('/:id', function(req, res) {
     var agent = useragent.parse(req.headers['user-agent']);
-    var value = (agent.toAgent() + "_" + agent.os.toString() + "_" + agent.device.toString()).replace(/\s/g, "");
-    res.send(value);
-});
-
-app.get('/auth', function(req, res) {
-    var agent = useragent.parse(req.headers['user-agent']);
-    var value = (agent.toAgent() + "_" + agent.os.toString() + "_" + agent.device.toString()).replace(/\s/g, "");
+    var value = ("ID:"+req.params.id + "_" + agent.toAgent() + "_" + agent.os.toString() + "_" + agent.device.toString()).replace(/\s/g, "");
 
     // Crea el token
     var token = jwt.sign(value, app.get('polleitor'));
