@@ -10,15 +10,29 @@ var jwt = require('jsonwebtoken');
 var useragent = require('useragent');
 var config = require('./config');
 
+
+var loki = require('lokijs'),
+db = new loki('test.json');
+
 // Configuración
 var port = process.env.PORT || 3000;
 app.set('polleitor', config.secret);
+app.set('polls',config.polls );
 
 app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+// start DB
+for ( var p in config.polls ) {
+    var this_poll = db.addCollection( p );
+    for ( q in config.polls[p] ) {
+	console.log(config.polls[p][q]);
+	this_poll.insert( config.polls[p][q] );
+    }
+}
 
 // Rutas
 app.get('/:id', function(req, res) {
