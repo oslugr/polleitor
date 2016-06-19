@@ -6,6 +6,7 @@
     "dependencies": {
         "body-parser": "^1.15.1",
         "express": "^4.14.0",
+        "express-session": "^1.13.0",
         "jsonwebtoken": "^7.0.1",
         "lokijs": "^1.3.19",
         "morgan": "^1.7.0",
