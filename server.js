@@ -20,12 +20,13 @@ var jwt = require('jsonwebtoken');
 var useragent = require('useragent');
 
 var loki = require('lokijs'),
-    db = new loki('test.json');
+    db = new loki('polls.json');
 
 // Configuración
 var port = process.env.PORT || 3000;
 app.set('polleitor', config.secret);
 app.set('polls', config.polls);
+app.set('loki', db);
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -35,30 +36,61 @@ app.use(morgan('dev'));
 app.use(session(sessionOptions));
 
 // start DB
+var polls = new Array();
 for (var p in config.polls) {
     var this_poll = db.addCollection(p);
     for (q in config.polls[p]) {
-        console.log(config.polls[p][q]);
         this_poll.insert(config.polls[p][q]);
     }
+    polls[p] = this_poll;
 }
+app.set('these_polls', polls);
 
 // Rutas
 app.get('/:id', function(req, res) {
     session = req.session;
 
-    var agent = useragent.parse(req.headers['user-agent']);
-    var value = ("ID:" + req.params.id + "_" + agent.toAgent() + "_" + agent.os.toString() + "_" + agent.device.toString()).replace(/\s/g, "");
+    if (typeof polls[req.params.id] === 'undefined') {
+        res.status(404).send('ID ' + req.params.id + ' not found');
+    } else {
+        var agent = useragent.parse(req.headers['user-agent']);
+        var dev_id = agent.toAgent() +
+            "_" + agent.os.toString() + "_" +
+            agent.device.toString().replace(/\s/g, "");
+        var value = "ID:" + req.params.id + "_" + dev_id;
 
-    // Crea el token
-    var token = jwt.sign(value, app.get('polleitor'));
-    session.token = token;
+        // Crea el token
+        var token = jwt.sign(value, app.get('polleitor'));
+        session.token = token;
 
-    res.json({
-        success: true,
-        message: 'Token creado',
-        token: token
-    });
+        var poll_collection = app.get('these_polls')[req.params.id];
+        poll_collection.insert({
+            dev_id: dev_id,
+            token: token
+        });
+        db.saveDatabase();
+        res.json({
+            success: true,
+            message: 'Token creado',
+            token: token
+        });
+    }
+});
+
+app.get('/:token/:id/:respuesta', function(req, res) {
+    if (typeof polls[req.params.id] === 'undefined') {
+        res.status(404).send('ID ' + req.params.id + ' not found');
+    } else {
+        var poll_collection = app.get('these_polls')[req.params.id];
+        console.log(req.params.token);
+        var dev_id = poll_collection.find({
+            'token': req.params.token
+        });
+        res.json({
+            success: true,
+            message: 'token correcto'
+        });
+    }
 });
 
 // Rutas protegidas
