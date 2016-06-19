@@ -52,13 +52,26 @@ app.get('/:id', function(req, res) {
 	var token = jwt.sign(value, app.get('polleitor'));
 	
 	var poll_collection = app.get('these_polls')[req.params.id];
-	poll_collection.insert( { dev_id: token } );
+	poll_collection.insert( { dev_id: dev_id,
+				  token: token } );
 	db.saveDatabase();
 	res.json({
             success: true,
             message: 'Token creado',
             token: token
 	});
+    }
+});
+
+app.get('/:token/:id/:respuesta', function(req, res) {
+    if ( typeof polls[req.params.id] === 'undefined' ) {
+	res.status(404).send('ID ' + req.params.id + ' not found');	
+    } else {
+	var poll_collection = app.get('these_polls')[req.params.id];
+	console.log( req.params.token );
+	var dev_id = poll_collection.find( { 'token': req.params.token } );
+	res.json({success: true,
+		  message: 'token correcto'});
     }
 });
 
