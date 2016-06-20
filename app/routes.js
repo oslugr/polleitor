@@ -8,7 +8,6 @@ var database=require('./database');
 var db=database.db;
 var polls=database.polls;
 
-
 module.exports=function(app){
     
 // Rutas

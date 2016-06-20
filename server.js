@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 // Dependencias
 var config = require('./app/config');
 
@@ -16,7 +18,6 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
 var routes=require('./app/routes');
-var db=require('./app/routes').db;
 
 // Configuración
 var port = process.env.PORT || 3000;
