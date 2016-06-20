@@ -23,10 +23,17 @@
 	   polls[data.name].push( this_q );
 	 }
        }
+       console.log( polls );
      };
 
-     var view = function( poll ) {
-       
+     var view = function( q,a ) {
+       document.writeln( "<h2>"+ q + "</h2>");
+       document.writeln( "<ol>");
+       for (var i in a ) {
+	 console.log( a[i]);
+	 document.writeln( "<li>"+ a[i]+ "</li>" );
+       }
+       document.writeln( "</ol>");
      };
     </script>
 
@@ -37,6 +44,14 @@
   <body>
     <h1>That's all folks</h1>
 
+    <script type="application/javascript">
+     for ( var p in polls['test'] ) {
+       console.log(polls['test'][p]);
+       for ( var q in polls['test'][p] ) {
+	 view( q, polls['test'][p][q] );
+       }
+     }
+    </script>
     
   </body>
 
