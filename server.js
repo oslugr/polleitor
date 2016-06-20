@@ -29,9 +29,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(session(sessionOptions));
 
-
 routes(app);
-
 
 app.listen(port);
 console.log('Servidor corriendo en http://localhost:' + port);

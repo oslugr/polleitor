@@ -71,9 +71,9 @@ api.use(function(req, res, next) {
     if (ses.token) {
         jwt.verify(ses.token, config.secret, function(err, value) {
             if (err) {
-                return res.json({
+                return res.json(403, {
                     success: false,
-                    message: 'Fallo al verificar el token.'
+                    message: 'Fallo al verificar el token. Acceso no autorizado'
                 });
             } else {
                 // Se pasa el token con la solicitud
@@ -82,7 +82,7 @@ api.use(function(req, res, next) {
             }
         });
     } else {
-        return res.status(403).send({
+        return res.status(404).send({
             success: false,
             message: 'Token no encontrado.'
         });
