@@ -48,11 +48,11 @@ app.set('these_polls', polls);
 
 // Rutas
 app.get('/:id', function(req, res) {
-    session = req.session;
 
     if (typeof polls[req.params.id] === 'undefined') {
         res.status(404).send('ID ' + req.params.id + ' not found');
     } else {
+	session = req.session;
         var agent = useragent.parse(req.headers['user-agent']);
         var dev_id = agent.toAgent() +
             "_" + agent.os.toString() + "_" +
