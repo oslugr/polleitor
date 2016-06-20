@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Dependencias
-var config = require('./config');
+var config = require('./app/config');
 
 var express = require('express');
 var session = require('express-session');
@@ -18,8 +18,8 @@ var morgan = require('morgan');
 var jwt = require('jsonwebtoken');
 var useragent = require('useragent');
 
-var loki = require('lokijs'),
-    db = new loki('polls.json');
+var db=require('./app/database').db;
+var polls=require('./app/database').polls;
 
 // Configuración
 var port = process.env.PORT || 3000;
@@ -34,15 +34,6 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(session(sessionOptions));
 
-// start DB
-var polls = new Array();
-for (var p in config.polls) {
-    var this_poll = db.addCollection(p);
-    for (q in config.polls[p]) {
-        this_poll.insert(config.polls[p][q]);
-    }
-    polls[p] = this_poll;
-}
 app.set('these_polls', polls);
 
 // Rutas
@@ -130,3 +121,4 @@ api.get('/check', function(req, res) {
 
 app.listen(port);
 console.log('Servidor corriendo en http://localhost:' + port);
+module.exports=app;
