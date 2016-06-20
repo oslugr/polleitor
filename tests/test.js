@@ -1,4 +1,4 @@
-var assert = require('chai').assert;
+var should=require('should');
 var request = require('supertest');
 var app = require('../server');
 
@@ -9,17 +9,16 @@ describe('Pruebas generales', function() {
         request(app).get('/test')
             .expect(200)
             .end(function(err, res) {
-                assert.notOk(err);
-                assert.ok(res.body);
+                should.not.exist(err);
+                should.exist(res.body);
                 var body = res.body;
-                assert.ok(body.success);
-                assert.equal(body.success, true);
-                assert.ok(body.message);
-                assert.ok(body.token);
+                body.should.have.property('success',true);
+                body.should.have.property('message');
+                body.should.have.property('token');
                 request(app).get('/tests2foo')
                     .expect(404)
                     .end(function(err, res) {
-                        assert.notOk(err);
+                        should.not.exist(err);
                         done();
                     });
             });
