@@ -1,4 +1,5 @@
 # Polleitor
+[![Build Status](https://travis-ci.org/oslugr/polleitor.svg?branch=master)](https://travis-ci.org/oslugr/polleitor)
 Sietema cliente-servidor para crear widgets de encuestas
 
 
