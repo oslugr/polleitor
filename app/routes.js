@@ -2,9 +2,12 @@ var jwt = require('jsonwebtoken');
 var useragent = require('useragent');
 var express=require('express');
 
+var config=require('./config');
+
 var database=require('./database');
 var db=database.db;
 var polls=database.polls;
+
 
 module.exports=function(app){
     
@@ -22,7 +25,7 @@ app.get('/:id', function(req, res) {
         var value = "ID:" + req.params.id + "_" + dev_id;
 
         // Crea el token
-        var token = jwt.sign(value, app.get('polleitor'));
+        var token = jwt.sign(value, config.secret);
         ses.token = token;
 
         var poll_collection = polls[req.params.id];
@@ -67,7 +70,7 @@ api.use(function(req, res, next) {
 
     // Verificar el token
     if (ses.token) {
-        jwt.verify(ses.token, app.get('polleitor'), function(err, value) {
+        jwt.verify(ses.token, config.secret, function(err, value) {
             if (err) {
                 return res.json({
                     success: false,

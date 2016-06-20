@@ -20,7 +20,6 @@ var db=require('./app/routes').db;
 
 // Configuración
 var port = process.env.PORT || 3000;
-app.set('polleitor', config.secret);
 app.set('polls', config.polls);
 app.set('loki', db);
 
