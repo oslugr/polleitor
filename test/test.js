@@ -5,7 +5,7 @@ var request = require('supertest-session')(app);
 describe('Pruebas generales', function() {
     it('Token', function(done) {
         request.get('/test/check')
-            .expect(403)
+            .expect(404)
             .end(function(err, res) {
                 should.not.exist(err);
                 should.exist(res.body);

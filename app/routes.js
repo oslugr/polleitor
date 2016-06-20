@@ -37,7 +37,8 @@ app.get('/:id', function(req, res) {
         res.json({
             success: true,
             message: 'Token creado',
-            token: token
+            token: token,
+	    poll: polls[req.params.id]
         });
     }
 });
