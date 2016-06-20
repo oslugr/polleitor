@@ -11,7 +11,6 @@ var sessionOptions = {
     resave: true,
     saveUninitialized: false
 };
-var session;
 
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -48,20 +47,20 @@ app.set('these_polls', polls);
 
 // Rutas
 app.get('/:id', function(req, res) {
-    session = req.session;
+    var ses = req.session;
 
     if (typeof polls[req.params.id] === 'undefined') {
         res.status(404).send('ID ' + req.params.id + ' not found');
     } else {
         var agent = useragent.parse(req.headers['user-agent']);
-        var dev_id = agent.toAgent() +
+        var dev_id = (agent.toAgent() +
             "_" + agent.os.toString() + "_" +
-            agent.device.toString().replace(/\s/g, "");
+            agent.device.toString()).replace(/\s/g, "");
         var value = "ID:" + req.params.id + "_" + dev_id;
 
         // Crea el token
         var token = jwt.sign(value, app.get('polleitor'));
-        session.token = token;
+        ses.token = token;
 
         var poll_collection = app.get('these_polls')[req.params.id];
         poll_collection.insert({
@@ -69,6 +68,7 @@ app.get('/:id', function(req, res) {
             token: token
         });
         db.saveDatabase();
+
         res.json({
             success: true,
             message: 'Token creado',
@@ -100,11 +100,11 @@ app.use('/:id', api);
 // Middleware para verficiar el token
 api.use(function(req, res, next) {
     // Obtener el token
-    session = req.session;
+    var ses = req.session;
 
     // Verificar el token
-    if (session.token) {
-        jwt.verify(session.token, app.get('polleitor'), function(err, value) {
+    if (ses.token) {
+        jwt.verify(ses.token, app.get('polleitor'), function(err, value) {
             if (err) {
                 return res.json({
                     success: false,
