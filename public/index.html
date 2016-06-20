@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Demo Polleitor</title>
+    
+    <meta name="description" content="Demo/Prueba de concepto polleitor">
+    <meta name="author" content="JJ Merelo">
+
+    <script type="application/javascript"> 
+     var polls = new Array;
+     var v = function( data ) {
+       polls[data.name] = new Array;
+       for ( var i in data.data ) {
+	 if ( typeof data.data[i].q !== 'undefined' ) {
+	   var this_q = new Object;
+	   this_q[ data.data[i].q ] = new Array;
+	   for ( var j in data.data[i].a ) {
+	     this_q[ data.data[i].q ].push( data.data[i].a[j] );
+	   }
+	   polls[data.name].push( this_q );
+	 }
+       }
+     };
+
+     var view = function( poll ) {
+       
+     };
+    </script>
+
+    <script type="application/javascript" data-for="polleitor" id='test' src='/test/v'></script>
+ 
+  </head>
+
+  <body>
+    <h1>That's all folks</h1>
+
+    
+  </body>
+
+
+</html>

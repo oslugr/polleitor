@@ -11,7 +11,7 @@ var polls=database.polls;
 module.exports=function(app){
     
 // Rutas
-app.get('/:id', function(req, res) {
+app.get('/:id/:f?', function(req, res) {
     var ses = req.session;
 
     if (typeof polls[req.params.id] === 'undefined') {
@@ -34,12 +34,21 @@ app.get('/:id', function(req, res) {
         });
         db.saveDatabase();
 
-        res.json({
-            success: true,
-            message: 'Token creado',
-            token: token,
+	var payload = {
+	    success: true,
+	    message: 'Token creado',
+	    token: token,
 	    poll: polls[req.params.id]
-        });
+        };
+
+	console.log( req.params );
+	if ( typeof req.params.f === 'undefined') {
+            res.json( payload );
+	} else {
+	    res.header("Content-Type", "application/javascript");
+	    res.send( req.params.f + "( " + JSON.stringify(  polls[req.params.id] ) + ")")
+	}
+	    
     }
 });
 
