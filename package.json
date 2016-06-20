@@ -11,7 +11,9 @@
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+      "mocha": "^2.5.3"
+  },
   "scripts": {
     "test": "npm test"
   },
