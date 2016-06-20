@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(session(sessionOptions));
+app.use(express.static('public'));
 
 routes(app);
 
