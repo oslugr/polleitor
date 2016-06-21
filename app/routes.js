@@ -11,7 +11,7 @@ var polls=database.polls;
 module.exports=function(app){
     
 // Rutas
-app.get('/:id/:f?', function(req, res) {
+app.get('/:id', function(req, res) {
     var ses = req.session;
 
     if (typeof polls[req.params.id] === 'undefined') {
@@ -42,12 +42,38 @@ app.get('/:id/:f?', function(req, res) {
         };
 
 	console.log( req.params );
-	if ( typeof req.params.f === 'undefined') {
-            res.json( payload );
-	} else {
-	    res.header("Content-Type", "application/javascript");
-	    res.send( req.params.f + "( " + JSON.stringify(  polls[req.params.id] ) + ")")
-	}
+        res.json( payload );
+	    
+    }
+});
+
+
+app.get('/:id/p/:f', function(req, res) {
+    var ses = req.session;
+
+    if (typeof polls[req.params.id] === 'undefined') {
+        res.status(404).send('ID ' + req.params.id + ' not found');
+    } else {
+        var agent = useragent.parse(req.headers['user-agent']);
+        var dev_id = (agent.toAgent() +
+            "_" + agent.os.toString() + "_" +
+            agent.device.toString()).replace(/\s/g, "");
+        var value = "ID:" + req.params.id + "_" + dev_id;
+
+        // Crea el token
+        var token = jwt.sign(value, config.secret);
+        ses.token = token;
+
+        var poll_collection = polls[req.params.id];
+        poll_collection.insert({
+            dev_id: dev_id,
+            token: token
+        });
+        db.saveDatabase();
+
+	console.log( req.params );
+	res.header("Content-Type", "application/javascript");
+	res.send( req.params.f + "( " + JSON.stringify(  polls[req.params.id] ) + ")")
 	    
     }
 });
