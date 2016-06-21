@@ -6,9 +6,7 @@ var config = require('./config');
 
 var database = require('./database');
 var db = database.db;
-var polls = config.polls;
-console.log( polls ); // ¿Loki trabaja con el objeto en sí?
-console.log( config );
+var polls = database.polls;
 
 module.exports = function(app) {
 
@@ -19,6 +17,7 @@ module.exports = function(app) {
             });
         else {
 	    req.poll_collection = polls[req.params.id];
+	    console.log( req );
 	    next();
 	}
     });
