@@ -1,5 +1,6 @@
 module.exports = {
     'secret': 'polleitor',
+    'loki_db_name': 'polls.json',
     'polls': {
         "test": [{
             "q": "¿Esto va?",

@@ -1,7 +1,7 @@
 var loki = require('lokijs');
 var config=require('./config');
 
-var db = new loki('polls.json');
+var db = new loki(config.loki_db_name);
 
 
 // start DB
