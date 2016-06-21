@@ -1,70 +1,70 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
-    
+
     <title>Demo Polleitor</title>
-    
+
     <meta name="description" content="Demo/Prueba de concepto polleitor">
     <meta name="author" content="JJ Merelo">
 
-    <script type="application/javascript"> 
-     var polls = new Array;
-     var v = function( data ) {
-       polls[data.name] = new Array;
-       for ( var i in data.data ) {
-	 if ( typeof data.data[i].q !== 'undefined' ) {
-	   var this_q = new Object;
-	   this_q[ data.data[i].q ] = new Array;
-	   for ( var j in data.data[i].a ) {
-	     this_q[ data.data[i].q ].push( data.data[i].a[j] );
-	   }
-	   polls[data.name].push( this_q );
-	 }
-       }
-       console.log(" v " );
-       console.log(data );
-       console.log( polls );
-     };
+    <script type="application/javascript">
+        var polls = new Array;
+        var v = function(data) {
+            polls[data.name] = new Array;
+            for (var i in data.data) {
+                if (typeof data.data[i].q !== 'undefined') {
+                    var this_q = new Object;
+                    this_q[data.data[i].q] = new Array;
+                    for (var j in data.data[i].a) {
+                        this_q[data.data[i].q].push(data.data[i].a[j]);
+                    }
+                    polls[data.name].push(this_q);
+                }
+            }
+            console.log(" v ");
+            console.log(data);
+            console.log(polls);
+        };
 
-     var view = function( q,a ) {
-       document.writeln( "<h2>"+ q + "</h2>");
-       document.writeln( "<ol>");
-       for (var i in a ) {
-	 console.log( a[i]);
-	 document.writeln( "<li>"+ a[i]+ "</li>" );
-       }
-       document.writeln( "</ol>");
-     };
+        var view = function(q, a) {
+            document.writeln("<h2>" + q + "</h2>");
+            document.writeln("<ol>");
+            for (var i in a) {
+                console.log(a[i]);
+                document.writeln("<li>" + a[i] + "</li>");
+            }
+            document.writeln("</ol>");
+        };
     </script>
 
     <script type="application/javascript" src='/test/p/v'></script>
     <script type="application/javascript" src='/2test/p/v'></script>
 
-  </head>
+</head>
 
-  <body>
+<body>
     <h1>That's all folks</h1>
 
     <script type="application/javascript">
-     for ( var p in polls['test'] ) {
-       console.log(polls['test'][p]);
-       for ( var q in polls['test'][p] ) {
-	 view( q, polls['test'][p][q] );
-       }
-     }
+        for (var p in polls['test']) {
+            console.log(polls['test'][p]);
+            for (var q in polls['test'][p]) {
+                view(q, polls['test'][p][q]);
+            }
+        }
     </script>
-    
-     <script type="application/javascript">
-     for ( var p in polls['2test'] ) {
-       console.log(polls['2test'][p]);
-       for ( var q in polls['2test'][p] ) {
-	 view( q, polls['2test'][p][q] );
-       }
-     }
+
+    <script type="application/javascript">
+        for (var p in polls['2test']) {
+            console.log(polls['2test'][p]);
+            for (var q in polls['2test'][p]) {
+                view(q, polls['2test'][p][q]);
+            }
+        }
     </script>
-  </body>
+</body>
 
 
 </html>

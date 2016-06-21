@@ -73,7 +73,7 @@ app.get('/:id/p/:f', function(req, res) {
 
 	console.log( req.params );
 	res.header("Content-Type", "application/javascript");
-	res.send( req.params.f + "( " + JSON.stringify(  polls[req.params.id] ) + ")")
+	res.send(req.params.f + "( " + JSON.stringify(  polls[req.params.id] ) + ")");
 	    
     }
 });
