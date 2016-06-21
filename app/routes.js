@@ -16,7 +16,8 @@ module.exports = function(app) {
                 error: 'ID ' + req.params.id + ' not found'
             });
         else {
-	    req.poll_collection = polls[req.params.id];
+	    req.db_collection = polls[req.params.id].db_collection;
+	    req.poll = polls[req.params.id].poll;
 	    console.log( req );
 	    next();
 	}
@@ -40,18 +41,18 @@ module.exports = function(app) {
         var token = jwt.sign(value, config.secret);
         ses.token = token;
 
-        var poll_collection = req.poll_collection;
-        poll_collection.insert({
+        var db_collection = req.db_collection;
+        db_collection.insert({ client: {
             dev_id: dev_id,
             token: token
-        });
+        }});
         db.saveDatabase();
 
         var payload = {
             success: true,
             message: 'Token creado',
             token: token,
-            poll: polls[req.params.id]
+            poll: req.poll
         };
 
         console.log(req.params);
@@ -72,22 +73,22 @@ module.exports = function(app) {
         var token = jwt.sign(value, config.secret);
         ses.token = token;
 	
-        var poll_collection = req.poll_collection;
-        poll_collection.insert({
+        var db_collection = req.db_collection; // Código repetido
+        db_collection.insert({ client: {
             dev_id: dev_id,
             token: token
-        });
+        }});
         db.saveDatabase();
 	
         console.log(req.params);
         res.header("Content-Type", "application/javascript");
-        res.send(req.params.f + "( " + JSON.stringify(polls[req.params.id]) + ")");
+        res.send(req.params.f + "( " + JSON.stringify(req.poll) + ")");
     });
     
     app.put('/:id/:token/:respuesta', function(req, res) {
-        var poll_collection = req.poll_collection;;
+        var db_collection = req.db_collection;;
         console.log(req.params.token);
-        var dev_id = poll_collection.find({
+        var dev_id = db_collection.find({
             'token': req.params.token
         });
         res.json({
