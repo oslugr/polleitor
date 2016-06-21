@@ -23,6 +23,8 @@
 	   polls[data.name].push( this_q );
 	 }
        }
+       console.log(" v " );
+       console.log(data );
        console.log( polls );
      };
 
@@ -38,7 +40,8 @@
     </script>
 
     <script type="application/javascript" src='/test/p/v'></script>
- 
+    <script type="application/javascript" src='/2test/p/v'></script>
+
   </head>
 
   <body>
@@ -53,6 +56,14 @@
      }
     </script>
     
+     <script type="application/javascript">
+     for ( var p in polls['2test'] ) {
+       console.log(polls['2test'][p]);
+       for ( var q in polls['2test'][p] ) {
+	 view( q, polls['2test'][p][q] );
+       }
+     }
+    </script>
   </body>
 
 
