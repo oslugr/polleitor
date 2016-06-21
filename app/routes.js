@@ -78,7 +78,7 @@ app.get('/:id/p/:f', function(req, res) {
     }
 });
 
-app.get('/:id/:token/:respuesta', function(req, res) {
+app.put('/:id/:token/:respuesta', function(req, res) {
     if (typeof polls[req.params.id] === 'undefined') {
         res.status(404).send('ID ' + req.params.id + ' not found');
     } else {
