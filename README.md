@@ -12,4 +12,4 @@ Se accede al servicio mediante una Api Rest
 |:--------:|:----------:|:-------------:|:-----------:|
 |GET       |`:id`       |Genera y devuelve token de sesion|`{success,message,tokens}`|
 |GET       |`:id/check` |Comprobación de la id generada|Id en texto plano|
-|GET       |`:token/:id/:respuesta`||||
+|PUT       |`:token/:id/:respuesta`|Añade respuesta a la pregunta|**No implementado**|
