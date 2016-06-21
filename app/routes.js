@@ -16,12 +16,15 @@ module.exports = function(app) {
             res.status(404).json({
                 error: 'ID ' + req.params.id + ' not found'
             });
-        else next();
+        else {
+	    req.poll_collection = polls[req.params.id];
+	    next();
+	}
     });
     
     // Rutas
     app.get('/:id/resultados', function(req, res) {
-	var poll_collection = polls[req.params.id];
+	console.log("TODO");
     });
 	    
     app.get('/:id', function(req, res) {
@@ -37,7 +40,7 @@ module.exports = function(app) {
         var token = jwt.sign(value, config.secret);
         ses.token = token;
 
-        var poll_collection = polls[req.params.id];
+        var poll_collection = req.poll_collection;
         poll_collection.insert({
             dev_id: dev_id,
             token: token
@@ -69,7 +72,7 @@ module.exports = function(app) {
         var token = jwt.sign(value, config.secret);
         ses.token = token;
 	
-        var poll_collection = polls[req.params.id];
+        var poll_collection = req.poll_collection;
         poll_collection.insert({
             dev_id: dev_id,
             token: token
@@ -82,7 +85,7 @@ module.exports = function(app) {
     });
     
     app.put('/:id/:token/:respuesta', function(req, res) {
-        var poll_collection = polls[req.params.id];
+        var poll_collection = req.poll_collection;;
         console.log(req.params.token);
         var dev_id = poll_collection.find({
             'token': req.params.token
