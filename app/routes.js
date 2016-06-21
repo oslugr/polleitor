@@ -6,8 +6,9 @@ var config = require('./config');
 
 var database = require('./database');
 var db = database.db;
-var polls = database.polls;
-
+var polls = config.polls;
+console.log( polls ); // ¿Loki trabaja con el objeto en sí?
+console.log( config );
 
 module.exports = function(app) {
 
