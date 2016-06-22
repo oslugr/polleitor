@@ -5,6 +5,9 @@ module.exports = {
         "test": [{
             "q": "¿Esto va?",
             "a": ["Si", "No"]
+        }, {
+            "q": "Segunda del primer poll",
+            "a": ["Como", "yiss"]
         }],
         "2test": [{
             "q": "¿Y ahora?",
