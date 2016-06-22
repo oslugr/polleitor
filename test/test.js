@@ -55,19 +55,19 @@ describe('Pruebas generales', function() {
                 });
             });
     });
-    it('Index',function(done){
-        request.get('/').expect(200).expect('Content-Type', 'text/html; charset=UTF-8').end(function(err,res){
+    it('Index', function(done) {
+        request.get('/').expect(200).expect('Content-Type', 'text/html; charset=UTF-8').end(function(err, res) {
             should.not.exist(err);
             should.exist(res.body);
-            done();            
+            done();
         });
     });
-    it('id/p',function(done){
-        request.get('/'+id+'/p/v').expect(200).end(function(err,res){
+    it('id/p', function(done) {
+        request.get('/' + id + '/p/v').expect(200).end(function(err, res) {
             should.not.exist(err);
             should.exist(res.body);
             should.exist(res.text); //¿?
-            done();            
+            done();
         });
     });
 });

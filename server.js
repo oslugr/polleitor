@@ -17,7 +17,7 @@ var sessionOptions = {
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
-var routes=require('./app/routes');
+var routes = require('./app/routes');
 
 // Configuración
 var port = process.env.PORT || 3000;
@@ -34,4 +34,4 @@ routes(app);
 
 app.listen(port);
 console.log('Servidor corriendo en http://localhost:' + port);
-module.exports=app;
+module.exports = app;
