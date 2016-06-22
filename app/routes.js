@@ -81,8 +81,10 @@ module.exports = function(app) {
         db.saveDatabase();
 	
         console.log(req.params);
+	var poll_to_send = new Object;
+	poll_to_send[req.params.id]=req.poll;
         res.header("Content-Type", "application/javascript");
-        res.send(req.params.f + "( " + JSON.stringify(req.poll) + ")");
+        res.send(req.params.f + "( " + JSON.stringify(poll_to_send) + ")");
     });
     
     app.put('/:id/:token/:respuesta', function(req, res) {

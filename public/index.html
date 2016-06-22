@@ -10,24 +10,25 @@
     <meta name="author" content="JJ Merelo">
 
     <script type="application/javascript">
-        var polls = new Array;
-        var v = function(data) {
-          polls[data.name] = new Array;
-	  console.log( data );
-          for (var i in data) {
-                if (typeof data[i].q !== 'undefined') {
-                    var this_q = new Object;
-                    this_q[data[i].q] = new Array;
-                    for (var j in data[i].a) {
-                        this_q[data[i].q].push(data.data[i].a[j]);
-                    }
-                    polls[data.name].push(this_q);
-                }
+      var polls = new Array;
+      var v = function(data) {
+         for (var i in data) {
+            console.log( i );
+            console.log( data[i] );
+            polls[i] = new Array;
+            for ( var q in data[i] ) {
+              var this_q = new Object;
+              this_q[data[i][q].q] = new Array;
+              for (var a in data[i][q].a) {
+                    this_q[data[i][q].q].push(data[i][q].a[a]);
+              }
+              console.log( this_q );
+              polls[i].push(this_q);
             }
-   
-        };
+        }
+      };
 
-        var view = function(q, a) {
+      var view = function(q, a) {
             document.writeln("<h2>" + q + "</h2>");
             document.writeln("<ol>");
             for (var i in a) {
