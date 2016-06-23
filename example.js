@@ -7,5 +7,7 @@ dbHandler(function(handler){
     //console.log(handler.getQuestion(handler.polls[0],2));
     //console.log(handler.answerQuestion(handler.polls[0],2,0,"mytoken"));
     //console.log(handler.getQuestion(handler.polls[0],2));
-    console.log(handler.getAnswers(handler.polls[0],2));
+    console.log(handler.getAnswersPoll(handler.polls[0]));
+    console.log(handler.answerQuestion(handler.polls[0],2,0,"mytoken"));
+    console.log(handler.getAnswersPoll(handler.polls[0]));
 });

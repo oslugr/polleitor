@@ -16,61 +16,90 @@ module.exports = function(done) {
 
     //Using $loki for question id
     var dbHandler = {
-        polls:[],
-        getQuestions:function(poll){
-            return db.getCollection(poll).data.map(function(q){
-                return {question:q.question,options:q.options, id:q.$loki};
+        polls: [],
+        getQuestions: function(poll) {
+            return db.getCollection(poll).data.map(function(q) {
+                return {
+                    question: q.question,
+                    options: q.options,
+                    id: q.$loki
+                };
             });
         },
-        getQuestion:function(poll,id){
-            var q=db.getCollection(poll).get(id);
-            return {question:q.question,options:q.options, id:q.$loki};
+        getQuestion: function(poll, id) {
+            var q = db.getCollection(poll).get(id);
+            return {
+                question: q.question,
+                options: q.options,
+                id: q.$loki
+            };
         },
-        answerQuestion:function(poll,id,answer,token){
-            var coll=db.getCollection(poll);  
-            var q=coll.get(id); 
-            if(!q || q.answers[token]!==undefined || answer>=q.options.length) return false;
-            else{
-                q.answers[token]=answer;
+        answerQuestion: function(poll, id, answer, token) {
+            var coll = db.getCollection(poll);
+            var q = coll.get(id);
+            if (!q || q.answers[token] !== undefined || answer >= q.options.length) return false;
+            else {
+                q.answers[token] = answer;
                 coll.update(q);
-                return true;                
-            }            
+                return true;
+            }
         },
-        getAnswers:function(poll,id){
-            var question=db.getCollection(poll).get(id);
-            if(!question) return null;
-            var results=[];
-            for(var i=0;i<question.options.length;i++){
-                results[i]=0;
+        getAnswers: function(poll, id) {
+            var question = db.getCollection(poll).get(id);
+            if (!question) return null;
+            var results = [];
+            for (var i = 0; i < question.options.length; i++) {
+                results[i] = 0;
             }
-            for(i in question.answers){
+            for (i in question.answers) {
                 results[question.answers[i]]++;
-                
+
             }
-            return {options:question.options,answers:results};
+            return {
+                options: question.options,
+                answers: results
+            };
+        },
+        getAnswersPoll: function(poll) {
+            var answers = db.getCollection(poll).data.map(function(question) {
+                var results = [];
+                for (var i = 0; i < question.options.length; i++) {
+                    results[i] = 0;
+                }
+                for (i in question.answers) {
+                    results[question.answers[i]]++;
+
+                }
+                return {
+                    options: question.options,
+                    answers: results,
+                    id: question.$loki
+                };
+            });
+            return answers;
         }
     };
 
     function loadHandler() {
         console.log("Loading DB");
-        for(var p in config.polls){
-        var coll = db.getCollection(p);
-        if (coll === null) {
-            var poll=config.polls[p];
-            console.log("Creating poll "+p);
-            coll = db.addCollection(p);
+        for (var p in config.polls) {
+            var coll = db.getCollection(p);
+            if (coll === null) {
+                var poll = config.polls[p];
+                console.log("Creating poll " + p);
+                coll = db.addCollection(p);
 
-            for(var i=0;i<poll.length;i++){
-                var quest=poll[i];
-                coll.insert({
-                    question: quest.q,
-                    options: quest.a,
-                    answers: {}
-                });
-            }
-        } else console.log("Loading poll "+p);
-        dbHandler.polls.push(p);
-    }
+                for (var i = 0; i < poll.length; i++) {
+                    var quest = poll[i];
+                    coll.insert({
+                        question: quest.q,
+                        options: quest.a,
+                        answers: {}
+                    });
+                }
+            } else console.log("Loading poll " + p);
+            dbHandler.polls.push(p);
+        }
         done(dbHandler);
     }
 
