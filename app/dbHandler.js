@@ -18,24 +18,37 @@ module.exports = function(done) {
     var dbHandler = {
         polls:[],
         getQuestions:function(poll){
-            return db.getCollection(poll).data;
+            return db.getCollection(poll).data.map(function(q){
+                return {question:q.question,options:q.options, id:q.$loki};
+            });
         },
         getQuestion:function(poll,id){
-            return db.getCollection(poll).get(id);    
+            var q=db.getCollection(poll).get(id);
+            return {question:q.question,options:q.options, id:q.$loki};
         },
         answerQuestion:function(poll,id,answer,token){
             var coll=db.getCollection(poll);  
             var q=coll.get(id); 
-            console.log(q.options.length);
-            console.log(q.answers[token]);
             if(!q || q.answers[token]!==undefined || answer>=q.options.length) return false;
             else{
                 q.answers[token]=answer;
                 coll.update(q);
                 return true;                
             }            
+        },
+        getAnswers:function(poll,id){
+            var question=db.getCollection(poll).get(id);
+            if(!question) return null;
+            var results=[];
+            for(var i=0;i<question.options.length;i++){
+                results[i]=0;
+            }
+            for(i in question.answers){
+                results[question.answers[i]]++;
+                
+            }
+            return {options:question.options,answers:results};
         }
-
     };
 
     function loadHandler() {
