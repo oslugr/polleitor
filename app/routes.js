@@ -8,17 +8,18 @@ var config = require('./config');
 
 module.exports = function(app,handler) {
 
-    app.use('/:id', function(req, res, next) {
-        var poll=req.params.id;
+    app.use('/:poll', function(req, res, next) {
+        var poll=req.params.poll;
         if (!handler.checkPoll(poll))
             res.status(404).json({
-                error: 'ID ' + poll + ' not found'
+                error: 'Poll ' + poll + ' not found'
             });
         else next();
     });
 
 
-    app.get('/:id', function(req, res) {
+    app.get('/:poll', function(req, res) {
+        //Esto no deberia estar aqui
         var ses = req.session;
 
         var agent = useragent.parse(req.headers['user-agent']);
@@ -39,21 +40,25 @@ module.exports = function(app,handler) {
             }
         });
         db.saveDatabase();*/
-
-        res.json({
-            success: true,
-            message: 'Token creado',
-            token: token
-        });
+        
+        var questions=handler.getPoll(req.params.poll);
+        if(!questions) return res.status(404).json({status:404,error:"Not Poll Found",poll:req.params.poll});
+        else{
+            res.json(questions);
+            
+        }
+    
 
     });
     
-    app.get('/:id/resultados', function(req, res) {
-        console.log("TODO");
+    app.get('/:poll/resultados', function(req, res) {
+        var answers=handler.getAnswersPoll(req.params.poll);
+        if(!answers) return res.status(404).json({error:'poll '+req.params.poll+' not found'});
+        else return res.json(answers);
     });
 
 
-    app.get('/:id/p/:f', function(req, res) {
+    app.get('/:poll/p/:f', function(req, res) {
         var ses = req.session;
         var agent = useragent.parse(req.headers['user-agent']);
         var dev_id = (agent.toAgent() +
@@ -81,7 +86,7 @@ module.exports = function(app,handler) {
         res.send(req.params.f + "( " + JSON.stringify(poll_to_send) + ")");
     });
 
-    app.put('/:id/:token/:respuesta', function(req, res) {
+    app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var db_collection = req.db_collection;
         console.log(req.params.token);
         var dev_id = db_collection.find({
@@ -95,7 +100,7 @@ module.exports = function(app,handler) {
 
     // Rutas protegidas
     var api = express.Router();
-    app.use('/:id', api);
+    app.use('/:poll', api);
 
     // Middleware para verficiar el token
     api.use(function(req, res, next) {
