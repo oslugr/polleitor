@@ -1,6 +1,6 @@
 module.exports = {
     'secret': 'polleitor',
-    'loki_db_name': 'polls.json',
+    'loki_db_name': process.env.DBFILE || 'polls.json',
     'polls': {
         "test": [{
             "q": "¿Esto va?",
