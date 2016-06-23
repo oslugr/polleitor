@@ -18,6 +18,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
 var routes = require('./app/routes');
+var dbHandler=require('./app/dbHandler');
 
 // Configuración
 var port = process.env.PORT || 3000;
@@ -30,8 +31,11 @@ app.use(morgan('dev'));
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 
-routes(app);
+dbHandler(function(handler){
+routes(app,handler);
 
-app.listen(port);
-console.log('Servidor corriendo en http://localhost:' + port);
+app.listen(port, function() {
+    console.log('Servidor corriendo en http://localhost:' + port);
+});
+});
 module.exports = app;

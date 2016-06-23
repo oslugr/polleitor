@@ -4,29 +4,19 @@ var express = require('express');
 
 var config = require('./config');
 
-var database = require('./database');
-var db = database.db;
-var polls = database.polls;
 
-module.exports = function(app) {
+
+module.exports = function(app,handler) {
 
     app.use('/:id', function(req, res, next) {
-        if (typeof polls[req.params.id] === 'undefined')
+        var poll=req.params.id;
+        if (!handler.checkPoll(poll))
             res.status(404).json({
-                error: 'ID ' + req.params.id + ' not found'
+                error: 'ID ' + poll + ' not found'
             });
-        else {
-            req.db_collection = polls[req.params.id].db_collection;
-            req.poll = polls[req.params.id].poll;
-            console.log(req);
-            next();
-        }
+        else next();
     });
 
-    // Rutas
-    app.get('/:id/resultados', function(req, res) {
-        console.log("TODO");
-    });
 
     app.get('/:id', function(req, res) {
         var ses = req.session;
@@ -41,25 +31,25 @@ module.exports = function(app) {
         var token = jwt.sign(value, config.secret);
         ses.token = token;
 
-        var db_collection = req.db_collection;
+    /*    var db_collection = req.db_collection;
         db_collection.insert({
             client: {
                 dev_id: dev_id,
                 token: token
             }
         });
-        db.saveDatabase();
+        db.saveDatabase();*/
 
-        var payload = {
+        res.json({
             success: true,
             message: 'Token creado',
-            token: token,
-            poll: req.poll
-        };
+            token: token
+        });
 
-        console.log(req.params);
-        res.json(payload);
-
+    });
+    
+    app.get('/:id/resultados', function(req, res) {
+        console.log("TODO");
     });
 
 
