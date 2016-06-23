@@ -17,7 +17,7 @@ module.exports = function(app,handler) {
         else next();
     });
 
-
+    // Muestra preguntas y posibles respuestas del poll
     app.get('/:poll', function(req, res) {
         //Esto no deberia estar aqui
         var ses = req.session;
@@ -51,13 +51,14 @@ module.exports = function(app,handler) {
 
     });
     
+    // Muestra resultados del poll
     app.get('/:poll/resultados', function(req, res) {
         var answers=handler.getAnswersPoll(req.params.poll);
         if(!answers) return res.status(404).json({error:'poll '+req.params.poll+' not found'});
         else return res.json(answers);
     });
 
-
+    
     app.get('/:poll/p/:f', function(req, res) {
         var ses = req.session;
         var agent = useragent.parse(req.headers['user-agent']);
@@ -86,16 +87,13 @@ module.exports = function(app,handler) {
         res.send(req.params.f + "( " + JSON.stringify(poll_to_send) + ")");
     });
 
-    app.put('/:poll/:pregunta/:respuesta', function(req, res) {
-        var db_collection = req.db_collection;
-        console.log(req.params.token);
-        var dev_id = db_collection.find({
-            'token': req.params.token
-        });
-        res.json({
-            success: true,
-            message: 'token correcto'
-        });
+    app.get('/:poll/:pregunta/:respuesta', function(req, res) {
+        var token = req.session.token;
+        var r=handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.answer, token);
+        console.log(r);
+        console.log(handler.getAnswersPoll(req.params.poll));
+        if(r) return res.json({status:"OK",ok:true,poll:req.params.poll,pregunta:req.params.pregunta});
+        else  return res.json({status:"FAIL",ok:false,poll:req.params.poll,pregunta:req.params.pregunta});    
     });
 
     // Rutas protegidas
