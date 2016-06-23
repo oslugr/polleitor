@@ -36,7 +36,7 @@ module.exports = function(done) {
         answerQuestion: function(poll, id, answer, token) {
             var coll = db.getCollection(poll);
             var q = coll.get(id);
-            if (!token || !q || q.answers[token] !== undefined || answer >= q.options.length) return false;
+            if (!coll || !token || !q || q.answers[token] !== undefined || answer<0 || answer >= q.options.length) return false;
             else {
                 q.answers[token] = answer;
                 coll.update(q);

@@ -103,11 +103,9 @@ module.exports = function(app, handler) {
         res.send(req.params.f + "( " + JSON.stringify(poll_to_send) + ")");
     });
 
-    app.get('/:poll/:pregunta/:respuesta', function(req, res) {
+    app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;
-        var r=handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.answer, token);
-        console.log(r);
-        console.log(handler.getAnswersPoll(req.params.poll));
+        var r=handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
         if(r) return res.json({status:"OK",ok:true,poll:req.params.poll,pregunta:req.params.pregunta});
         else  return res.json({status:"FAIL",ok:false,poll:req.params.poll,pregunta:req.params.pregunta});
     });
