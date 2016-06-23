@@ -10,4 +10,6 @@ dbHandler(function(handler){
     console.log(handler.getAnswersPoll(handler.polls[0]));
     console.log(handler.answerQuestion(handler.polls[0],2,0,"mytoken"));
     console.log(handler.getAnswersPoll(handler.polls[0]));
+    console.log(handler.checkPoll("pepe"));
+    console.log(handler.checkPoll(handler.polls[0]));
 });

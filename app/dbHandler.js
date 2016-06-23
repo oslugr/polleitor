@@ -2,10 +2,6 @@ var loki = require('lokijs');
 var config = require('./config');
 
 
-
-
-
-
 module.exports = function(done) {
     var db = new loki(config.loki_db_name, {
         autosave: true,
@@ -45,6 +41,7 @@ module.exports = function(done) {
             }
         },
         getAnswers: function(poll, id) {
+            if(!this.checkPoll(poll)) return undefined;
             var question = db.getCollection(poll).get(id);
             if (!question) return null;
             var results = [];
@@ -77,6 +74,10 @@ module.exports = function(done) {
                 };
             });
             return answers;
+        },
+        checkPoll:function(poll){
+            if(!db.getCollection(poll)) return false;
+            else return true;            
         }
     };
 
