@@ -105,9 +105,19 @@ module.exports = function(app, handler) {
 
     app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;
-        var r=handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
-        if(r) return res.json({status:"OK",ok:true,poll:req.params.poll,pregunta:req.params.pregunta});
-        else  return res.json({status:"FAIL",ok:false,poll:req.params.poll,pregunta:req.params.pregunta});
+        var r = handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
+        if (r) return res.json({
+            status: "OK",
+            ok: true,
+            poll: req.params.poll,
+            pregunta: req.params.pregunta
+        });
+        else return res.json({
+            status: "FAIL",
+            ok: false,
+            poll: req.params.poll,
+            pregunta: req.params.pregunta
+        });
     });
 
     // Rutas protegidas

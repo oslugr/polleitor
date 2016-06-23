@@ -14,15 +14,15 @@ module.exports = function(done) {
     var dbHandler = {
         polls: [],
         getPoll: function(poll) {
-            if(!this.checkPoll(poll)) return null;
-            var res=db.getCollection(poll).data.map(function(q) {
+            if (!this.checkPoll(poll)) return null;
+            var res = db.getCollection(poll).data.map(function(q) {
                 return {
                     question: q.question,
                     options: q.options,
                     id: q.$loki
                 };
             });
-            if(!res || res.length===0) return null;
+            if (!res || res.length === 0) return null;
             else return res;
         },
         getQuestion: function(poll, id) {
@@ -36,7 +36,7 @@ module.exports = function(done) {
         answerQuestion: function(poll, id, answer, token) {
             var coll = db.getCollection(poll);
             var q = coll.get(id);
-            if (!coll || !token || !q || q.answers[token] !== undefined || answer<0 || answer >= q.options.length) return false;
+            if (!coll || !token || !q || q.answers[token] !== undefined || answer < 0 || answer >= q.options.length) return false;
             else {
                 q.answers[token] = answer;
                 coll.update(q);
@@ -44,7 +44,7 @@ module.exports = function(done) {
             }
         },
         getAnswers: function(poll, id) {
-            if(!this.checkPoll(poll)) return null;
+            if (!this.checkPoll(poll)) return null;
             var question = db.getCollection(poll).get(id);
             if (!question) return null;
             var results = [];
@@ -61,7 +61,7 @@ module.exports = function(done) {
             };
         },
         getAnswersPoll: function(poll) {
-            if(!this.checkPoll(poll)) return null;
+            if (!this.checkPoll(poll)) return null;
             var answers = db.getCollection(poll).data.map(function(question) {
                 var results = [];
                 for (var i = 0; i < question.options.length; i++) {
@@ -78,12 +78,12 @@ module.exports = function(done) {
                     id: question.$loki
                 };
             });
-            if(!answers || answers.length===0) return null;
+            if (!answers || answers.length === 0) return null;
             else return answers;
         },
-        checkPoll:function(poll){
-            if(!poll || !db.getCollection(poll)) return false;
-            else return true;            
+        checkPoll: function(poll) {
+            if (!poll || !db.getCollection(poll)) return false;
+            else return true;
         }
     };
 
