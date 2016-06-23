@@ -36,7 +36,7 @@ module.exports = function(done) {
         answerQuestion: function(poll, id, answer, token) {
             var coll = db.getCollection(poll);
             var q = coll.get(id);
-            if (!q || q.answers[token] !== undefined || answer >= q.options.length) return false;
+            if (!token || !q || q.answers[token] !== undefined || answer >= q.options.length) return false;
             else {
                 q.answers[token] = answer;
                 coll.update(q);
@@ -72,6 +72,7 @@ module.exports = function(done) {
 
                 }
                 return {
+                    question: question.question,
                     options: question.options,
                     answers: results,
                     id: question.$loki
