@@ -1,4 +1,4 @@
-function getPoll(poll,done){
+function getPoll(poll, done) {
     $.ajax({
 			url: '/'+poll,
 			type: "GET",
@@ -44,10 +44,22 @@ function postAnswers(poll,answers,done){
 $(function(){
     var name=$(".poll").attr('data-poll-name');
     console.log(name);
-    getPoll(name,function(err,res){
-        if(err) console.log(err);
-        else {
-            $(".poll").text(JSON.stringify(res));
+    getPoll(name, function(err, res) {
+        if (err) {
+            console.log(err);
+        } else {
+            $.each(res, function(index, value) {
+                console.log(value);
+                $(".poll").append("<p>" + value.question + "</p>");
+                $(".poll").append("<ul>");
+                $.each(value.options, function(index, value) {
+                    //console.log(value);
+                    $(".poll").append("<li>" + value + "</li>");
+                });
+                $(".poll").append("</ul>");
+            });
+
+            //$(".poll").text(JSON.stringify(res));
         }
     });
 });
