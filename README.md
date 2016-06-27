@@ -10,8 +10,8 @@ Sistema cliente-servidor para crear widgets de encuestas.
 
 Se accede al servicio mediante una API REST
 
-| **Método** | **Ruta**               | **Descripción**                        | **Resultado**                  |
-|:----------:|:----------------------:|:--------------------------------------:|:------------------------------:|
-| GET        |`:poll`                 | Devuelve las preguntas de una encuesta |`[{question,options,id}]`       |
-| GET        |`:poll/resultados`      | Resultados del poll                    |`[{question,options,id,answers}]`|
-| PUT        |`:poll/:pregunta/:respuesta` | Añade respuesta a la pregunta     |`{status, ok, poll, pregunta}` |
+| **Método** | **Ruta**           | **Descripción**                        | **Resultado**                  |
+|:----------:|:------------------:|:--------------------------------------:|:------------------------------:|
+| GET        |`:poll`             | Devuelve las preguntas de una encuesta |`[{question,options,id}]`       |
+| GET        |`:poll/resultados`  | Resultados del poll                    |`[{question,options,id,answers}]`|
+| POST       |`:poll`             | Responde al poll [{id,answer}]         |`{poll,updates,failedUpdates}`  |

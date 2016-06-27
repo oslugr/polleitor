@@ -1,6 +1,6 @@
 {
   "name": "polleitor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Widget para hacer encuestas en el navegador",
   "main": "server.js",
   "dependencies": {

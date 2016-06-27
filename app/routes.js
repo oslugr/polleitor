@@ -104,7 +104,7 @@ module.exports = function(app, handler) {
         res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
     });
 
-    app.post('/:poll/:pregunta/:respuesta', function(req, res) {
+    /*app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;
 
         var r = handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
@@ -124,6 +124,27 @@ module.exports = function(app, handler) {
                 pregunta: req.params.pregunta
             });
         }
+    });*/
+    
+    app.post('/:poll',function(req,res){
+        var token = req.session.token;
+        var answers=req.body.answers;
+        var poll=req.params.poll;
+        
+        var correct=0;
+        var incorrect=0;
+        
+        for(var i=0;i<answers.length;i++){
+            var r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token);
+            if(r) correct++;
+            else incorrect--;
+        }
+        
+        return res.json({
+            poll: req.params.poll,
+            updates: correct,
+            failedUpdates:incorrect            
+        });
     });
 
 };

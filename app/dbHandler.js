@@ -2,9 +2,11 @@ var loki = require('lokijs');
 var config = require('./config');
 
 
-module.exports = function(done) {
+module.exports = function(done,save) {
+    if(save!==false) save=true;
+
     var db = new loki(config.loki_db_name, {
-        autosave: true,
+        autosave: save,
         autosaveInterval: 1000,
         autoload: true,
         autoloadCallback: loadHandler
@@ -40,6 +42,7 @@ module.exports = function(done) {
             else {
                 q.answers[token] = answer;
                 coll.update(q);
+                if(save) db.saveDatabase();
                 return true;
             }
         },
@@ -88,7 +91,7 @@ module.exports = function(done) {
     };
 
     function loadHandler() {
-        console.log("Loading DB");
+        console.log("Loading DB: " + config.loki_db_name);
         for (var p in config.polls) {
             var coll = db.getCollection(p);
             if (coll === null) {
