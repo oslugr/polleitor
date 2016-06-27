@@ -12,5 +12,6 @@ Se accede al servicio mediante una API REST
 
 | **Método** | **Ruta**                | **Descripción**                        | **Resultado**                  |
 |:----------:|:-----------------------:|:--------------------------------------:|:------------------------------:|
-| GET        | `:id`                   | Devuelve las preguntas de una encuesta | `{questions}`                  |
-| PUT        | `:token/:id/:respuesta` | Añade respuesta a la pregunta          | `{status, ok, poll, pregunta}` |
+| GET        | `:poll`                 | Devuelve las preguntas de una encuesta | `[{question,options,id}]`      |
+| GET        | `:poll/resultados`      | Resultados del poll                    | `[{question,options,id,answers}]`
+| PUT        | `:poll/:pregunta/:respuesta` | Añade respuesta a la pregunta     | `{status, ok, poll, pregunta}` |
