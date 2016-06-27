@@ -104,7 +104,7 @@ module.exports = function(app, handler) {
         res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
     });
 
-    app.put('/:poll/:pregunta/:respuesta', function(req, res) {
+    app.post('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;
 
         var r = handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
