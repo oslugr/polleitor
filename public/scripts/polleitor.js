@@ -20,15 +20,13 @@ $(function() {
         if (err) {
             console.log(err);
         } else {
-            $.each(res, function(index, value) {
-                console.log(value);
-                $(".poll").append("<p>" + value.question + "</p>");
-                $(".poll").append("<ul>");
-                $.each(value.options, function(index, value) {
+            $.each(res, function(id_p, val_p) {
+                console.log(val_p);
+                $(".poll").append("<p>" + val_p.question + "</p>");
+                $.each(val_p.options, function(id_r, val_r) {
                     //console.log(value);
-                    $(".poll").append("<li>" + value + "</li>");
+                    $(".poll").append("<input type='radio' name='" + id_p + "' value='" + id_r + "'>" + val_r + "<br>");
                 });
-                $(".poll").append("</ul>");
             });
 
             //$(".poll").text(JSON.stringify(res));
