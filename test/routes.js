@@ -29,48 +29,103 @@ describe('Routes', function() {
                     });
             });
     });
-    it('Get Respuestas',function(done){
-        request.get('/' + poll+'/resultados')
-        .expect(200)
-        .end(function(err, res) {
-            should.not.exist(err);
-            should.exist(res.body);
-            var body = res.body;
-            body.should.be.an.Array();
-            body.should.not.be.empty();
-            body[0].should.have.property('question');
-            body[0].should.have.property('options');
-            body[0].options.should.be.an.Array();
-            body[0].options.should.not.be.empty();
-            body[0].should.have.property('id');
-            body[0].should.have.property('answers');
-            body[0].answers.should.be.an.Array();
-            body[0].answers.should.have.length(body[0].options.length);
-            request.get('/tests2foo/resultados')
-                .expect(404)
-                .end(function(err, res) {
-                    should.not.exist(err);
-                    done();
-                });
-        });
-    });
-    it.skip('Post Respuesta', function(done) {
-        request.get('/' + id)
+    it('Get Respuestas', function(done) {
+        request.get('/' + poll + '/resultados')
             .expect(200)
             .end(function(err, res) {
                 should.not.exist(err);
                 should.exist(res.body);
                 var body = res.body;
-                body.should.have.property('success', true);
-                body.should.have.property('message');
-                body.should.have.property('token');
-                var token = body.token;
-                request.put('/' + id + '/' + token + '/a').expect(200).end(function(err, res) {
-                    should.not.exist(err);
-                    should.exist(res.body);
-                    //TODO: finish test
-                    done();
-                });
+                body.should.be.an.Array();
+                body.should.not.be.empty();
+                body[0].should.have.property('question');
+                body[0].should.have.property('options');
+                body[0].options.should.be.an.Array();
+                body[0].options.should.not.be.empty();
+                body[0].should.have.property('id');
+                body[0].should.have.property('answers');
+                body[0].answers.should.be.an.Array();
+                body[0].answers.should.have.length(body[0].options.length);
+                request.get('/tests2foo/resultados')
+                    .expect(404)
+                    .end(function(err, res) {
+                        should.not.exist(err);
+                        done();
+                    });
+            });
+    });
+    it('Post Respuesta', function(done) {
+        //Ninguna respuesta
+        request.get('/' + poll + '/resultados')
+            .expect(200)
+            .end(function(err, res) {
+                should.not.exist(err);
+                should.exist(res.body);
+                var body = res.body;
+                body[0].should.have.property('options');
+                body[0].should.have.property('answers');
+                body[0].answers.should.be.an.Array();
+                body[0].answers.should.not.be.empty();
+                body[0].answers[0].should.be.equal(0);
+                body[0].answers[1].should.be.equal(0);
+                //Respondemos 1 pregunta
+                request.post('/' + poll)
+                    .expect(200)
+                    .send({
+                        answers: [{
+                            id: body[0].id,
+                            answer: 0
+                        }]
+                    })
+                    .end(function(err, res) {
+                        should.not.exist(err);
+                        should.exist(res.body);
+                        res.body.should.have.property('updates', 1);
+                        res.body.should.have.property('failedUpdates', 0);
+                        //COmprobar actualización
+                        request.get('/' + poll + '/resultados')
+                            .expect(200)
+                            .end(function(err, res) {
+                                should.not.exist(err);
+                                should.exist(res.body);
+                                var body = res.body;
+                                body[0].should.have.property('answers');
+                                body[0].answers.should.be.an.Array();
+                                body[0].answers.should.not.be.empty();
+                                body[0].answers[0].should.be.equal(1);
+                                body[0].answers[1].should.be.equal(0);
+                                //Respondemos misma pregunta
+                                request.post('/' + poll)
+                                    .expect(200)
+                                    .send({
+                                        answers: [{
+                                            id: body[0].id,
+                                            answer: 0
+                                        }]
+                                    })
+                                    .end(function(err, res) {
+                                        should.not.exist(err);
+                                        should.exist(res.body);
+                                        //Error en update
+                                        res.body.should.have.property('updates', 0);
+                                        res.body.should.have.property('failedUpdates', 1);
+                                        //Comprobar que no hay cambos en los resultados
+                                        request.get('/' + poll + '/resultados')
+                                            .expect(200)
+                                            .end(function(err, res) {
+                                                should.not.exist(err);
+                                                should.exist(res.body);
+                                                var body = res.body;
+                                                body[0].should.have.property('answers');
+                                                body[0].answers.should.be.an.Array();
+                                                body[0].answers.should.not.be.empty();
+                                                body[0].answers[0].should.be.equal(1);
+                                                body[0].answers[1].should.be.equal(0);
+                                                done();
+                                            });
+                                    });
+                            });
+                    });
             });
     });
     it('Index', function(done) {
