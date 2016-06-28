@@ -78,7 +78,7 @@ module.exports = function(app, handler) {
         }
     });
 
-
+/*
     app.get('/:poll/p/:f', function(req, res) {
         var token = req.session.token;
 
@@ -102,7 +102,7 @@ module.exports = function(app, handler) {
         poll_to_send[req.params.id] = req.poll;
         res.header('Content-Type', 'application/javascript');
         res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
-    });
+    });*/
 
     /*app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;

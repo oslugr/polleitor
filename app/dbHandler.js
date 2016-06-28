@@ -27,14 +27,14 @@ module.exports = function(done,save) {
             if (!res || res.length === 0) return null;
             else return res;
         },
-        getQuestion: function(poll, id) {
+        /*getQuestion: function(poll, id) {
             var q = db.getCollection(poll).get(id);
             return {
                 question: q.question,
                 options: q.options,
                 id: q.$loki
             };
-        },
+        },*/
         answerQuestion: function(poll, id, answer, token) {
             var coll = db.getCollection(poll);
             var q = coll.get(id);
@@ -46,7 +46,7 @@ module.exports = function(done,save) {
                 return true;
             }
         },
-        getAnswers: function(poll, id) {
+        /*getAnswers: function(poll, id) {
             if (!this.checkPoll(poll)) return null;
             var question = db.getCollection(poll).get(id);
             if (!question) return null;
@@ -62,7 +62,7 @@ module.exports = function(done,save) {
                 options: question.options,
                 answers: results
             };
-        },
+        },*/
         getAnswersPoll: function(poll) {
             if (!this.checkPoll(poll)) return null;
             var answers = db.getCollection(poll).data.map(function(question) {
