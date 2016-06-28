@@ -50,17 +50,17 @@ $(function() {
         if (err) {
             console.log(err);
         } else {
-            $.each(res, function(id_p, val_p) {
-                console.log(val_p);
-                $(".poll").append("<p>" + val_p.question + "</p>");
+            $.each(res, function(id_que, val_que) {
+                console.log(val_que);
+                $(".poll").append("<p>" + val_que.question + "</p>");
                 var def = false;
 
-                $.each(val_p.options, function(id_r, val_r) {
+                $.each(val_que.options, function(id_ans, val_ans) {
                     if (!def) {
-                        $(".poll").append("<input type='radio' name='" + id_p + "' value='" + id_r + "' checked='checked'>" + val_r + "<br>");
+                        $(".poll").append("<input type='radio' name='" + val_que.id + "' value='" + id_ans + "' checked='checked'>" + val_ans + "<br>");
                         def = true;
                     } else {
-                        $(".poll").append("<input type='radio' name='" + id_p + "' value='" + id_r + "'>" + val_r + "<br>");
+                        $(".poll").append("<input type='radio' name='" + val_que.id + "' value='" + id_ans + "'>" + val_ans + "<br>");
                     }
                 });
             });
@@ -70,14 +70,28 @@ $(function() {
     });
 
     $("#enviar").click(function() {
-        var answers = new Array();
+        function Answer(id, answer) {
+            this.id = id;
+            this.answer = answer;
+        }
+
+        function Answers(answers) {
+            this.answers = answers;
+        }
+
+        var results = new Array();
 
         $.each($('input[type=radio]'), function() {
             if ($(this).is(":checked")) {
-                console.log("Question: " + $(this).attr("name") + " - Answer: " + $(this).val());
-                answers.push($(this).val());
+                //console.log("Question: " + $(this).attr("name") + " - Answer: " + $(this).val());
+                var answer = new Answer($(this).attr("name"), $(this).val());
+                results.push(answer);
             }
         });
+
+        var answers = new Answers(results);
+
+        console.log(JSON.stringify(answers));
     });
 
 });
