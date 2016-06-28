@@ -3,9 +3,10 @@ process.env.DBFILE = "test.json";
 var should = require('should');
 var app = require('./utils');
 var request = require('supertest-session')(app);
+var config = require('../app/config');
 
 
-var poll = "test";
+var poll = Object.keys(config.polls)[0]; // Usa la primera encuesta
 describe('Routes', function() {
     it('Get poll', function(done) {
         request.get('/' + poll)
@@ -69,7 +70,7 @@ describe('Routes', function() {
                 body[0].answers[0].should.be.equal(0);
                 body[0].answers[1].should.be.equal(0);
                 //Respondemos 1 pregunta
-                request.post('/' + poll)
+                request.put('/' + poll)
                     .expect(200)
                     .send({
                         answers: [{
@@ -78,11 +79,12 @@ describe('Routes', function() {
                         }]
                     })
                     .end(function(err, res) {
+			console.log( res );
                         should.not.exist(err);
                         should.exist(res.body);
                         res.body.should.have.property('updates', 1);
                         res.body.should.have.property('failedUpdates', 0);
-                        //COmprobar actualización
+                        //Comprobar actualización
                         request.get('/' + poll + '/resultados')
                             .expect(200)
                             .end(function(err, res) {
@@ -95,7 +97,7 @@ describe('Routes', function() {
                                 body[0].answers[0].should.be.equal(1);
                                 body[0].answers[1].should.be.equal(0);
                                 //Respondemos misma pregunta
-                                request.post('/' + poll)
+                                request.put('/' + poll)
                                     .expect(200)
                                     .send({
                                         answers: [{

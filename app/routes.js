@@ -126,7 +126,7 @@ module.exports = function(app, handler) {
         }
     });*/
     
-    app.post('/:poll',function(req,res){
+    app.put('/:poll',function(req,res){
         var token = req.session.token;
         var answers=req.body.answers;
         var poll=req.params.poll;
