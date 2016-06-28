@@ -1,8 +1,8 @@
 # Polleitor
 
 [![Build Status](https://travis-ci.org/oslugr/polleitor.svg?branch=master)](https://travis-ci.org/oslugr/polleitor)
-[![Coverage Status](https://coveralls.io/repos/github/oslugr/polleitor/badge.svg?branch=master)](https://coveralls.io/github/oslugr/polleitor?branch=master)
 
+[![Coverage Status](https://coveralls.io/repos/github/oslugr/polleitor/badge.svg?branch=master)](https://coveralls.io/github/oslugr/polleitor?branch=master)
 
 Sistema cliente-servidor para crear widgets de encuestas.
 
@@ -29,12 +29,14 @@ Y a continuación
 
 Se va con el navegador a http://localhost:3000/ y listo.
 
+
 ## API
-Se accede al servicio mediante una Api Rest
 
-|**Método**|**Ruta**    |**Descripción**|**Resultado**|
-|:--------:|:----------:|:-------------:|:-----------:|
-|GET       |`:id`       |Genera y devuelve token de sesion|`{success,message,tokens}`|
-|GET       |`:id/check` |Comprobación de la id generada|Id en texto plano|
-|PUT       |`:token/:id/:respuesta`|Añade respuesta a la pregunta|**No implementado**|
+Se accede al servicio mediante una API REST
 
+| **Método** | **Ruta**           | **Descripción**                        | **Resultado**                  |
+|:----------:|:------------------:|:--------------------------------------:|:------------------------------:|
+| GET        |`:poll`             | Devuelve las preguntas de una encuesta |`[{question,options,id}]`       |
+| GET        |`:poll/resultados`  | Resultados del poll                    |`[{question,options,id,answers}]`|
+| POST       |`:poll`             | Responde al poll [{id,answer}]         |`{poll,updates,failedUpdates}`  |
+>>>>>>> dev

@@ -3,7 +3,7 @@
 'use strict';
 
 // Dependencias
-var config = require('./app/config');
+var config = require('../app/config');
 
 var express = require('express');
 var session = require('express-session');
@@ -15,10 +15,9 @@ var sessionOptions = {
 };
 
 var bodyParser = require('body-parser');
-var morgan = require('morgan');
 
-var routes = require('./app/routes');
-var dbHandler = require('./app/dbHandler');
+var routes = require('../app/routes');
+var dbHandler = require('../app/dbHandler');
 
 // Configuración
 var port = process.env.PORT || 3000;
@@ -27,7 +26,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-app.use(morgan('dev'));
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 
@@ -35,7 +33,6 @@ dbHandler(function(handler) {
     routes(app, handler);
 
     app.listen(port, function() {
-        console.log('Servidor corriendo en http://localhost:' + port);
     });
-});
+},false);
 module.exports = app;

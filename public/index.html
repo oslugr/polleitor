@@ -3,67 +3,22 @@
 
 <head>
     <meta charset="utf-8">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Demo Polleitor</title>
-
-    <meta name="description" content="Demo/Prueba de concepto polleitor">
-    <meta name="author" content="JJ Merelo">
-
-    <script type="application/javascript">
-        var polls = new Array;
-        var v = function(data) {
-          polls[data.name] = new Array;
-	  console.log( data );
-          for (var i in data) {
-                if (typeof data[i].q !== 'undefined') {
-                    var this_q = new Object;
-                    this_q[data[i].q] = new Array;
-                    for (var j in data[i].a) {
-                        this_q[data[i].q].push(data.data[i].a[j]);
-                    }
-                    polls[data.name].push(this_q);
-                }
-            }
-   
-        };
-
-        var view = function(q, a) {
-            document.writeln("<h2>" + q + "</h2>");
-            document.writeln("<ol>");
-            for (var i in a) {
-                console.log(a[i]);
-                document.writeln("<li>" + a[i] + "</li>");
-            }
-            document.writeln("</ol>");
-        };
-    </script>
-
-    <script type="application/javascript" src='/test/p/v'></script>
-    <script type="application/javascript" src='/2test/p/v'></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="/scripts/polleitor.js"></script>
 </head>
 
 <body>
-    <h1>That's all folks</h1>
+    <h1>Prueba</h1>
 
-    <script type="application/javascript">
-        for (var p in polls['test']) {
-            console.log(polls['test'][p]);
-            for (var q in polls['test'][p]) {
-                view(q, polls['test'][p][q]);
-            }
-        }
-    </script>
+    <div class="poll" data-poll-name="test">
+    </div>
 
-    <script type="application/javascript">
-        for (var p in polls['2test']) {
-            console.log(polls['2test'][p]);
-            for (var q in polls['2test'][p]) {
-                view(q, polls['2test'][p][q]);
-            }
-        }
-    </script>
+    <br>
+    <button type="button" id="enviar">Enviar respuestas</button>
+
 </body>
-
 
 </html>
