@@ -2,15 +2,8 @@ module.exports = {
     'secret': 'polleitor',
     'loki_db_name': process.env.DBFILE || 'polls.json',
     'polls': {
-        "test": [{
-            "q": "¿Esto va?",
-            "a": ["Si", "No"]
-        }, {
-            "q": "Segunda del primer poll",
-            "a": ["Como", "yiss"]
-        }],
-        "2test": [{
-            "q": "¿Y ahora?",
+        "asignatura": [{
+            "q": "¿Están bien preparados los alumnos de tu(s) asignatura(s)?",
             "a": ["Si", "No"]
         }]
     }

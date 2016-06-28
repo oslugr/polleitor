@@ -29,7 +29,7 @@ function getAnswers(poll, done) {
 function postAnswers(poll, answers, done) {
     $.ajax({
         url: '/' + poll,
-        type: "POST",
+        type: "PUT",
         data: answers,
         dataType: 'json',
         cache: false,
