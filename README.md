@@ -39,4 +39,5 @@ Se accede al servicio mediante una API REST
 | GET        |`:poll`             | Devuelve las preguntas de una encuesta |`[{question,options,id}]`       |
 | GET        |`:poll/resultados`  | Resultados del poll                    |`[{question,options,id,answers}]`|
 | POST       |`:poll`             | Responde al poll [{id,answer}]         |`{poll,updates,failedUpdates}`  |
->>>>>>> dev
+
+
