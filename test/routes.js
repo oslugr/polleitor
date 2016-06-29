@@ -4,9 +4,16 @@ var should = require('should');
 var app = require('./utils');
 var request = require('supertest-session')(app);
 var config = require('../app/config');
+var dbHandler = require('../app/dbHandler');
 
 
 var poll = Object.keys(config.polls)[0]; // Usa la primera encuesta
+describe('Loki', function () {
+    it('Check polls', function(done) {
+	done();
+    })
+});
+
 describe('Routes', function() {
     it('Get poll', function(done) {
         request.get('/' + poll)

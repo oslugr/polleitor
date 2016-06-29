@@ -7,6 +7,7 @@ var config = require('./config');
 
 module.exports = function(app, handler) {
     // Middleware para crear/verificar token el token
+
     app.use(function(req, res, next) {
         // Obtener el token
         var ses = req.session;
