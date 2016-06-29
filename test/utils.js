@@ -31,7 +31,6 @@ app.use(express.static('public'));
 
 dbHandler(function(handler) {
     routes(app, handler);
-
     app.listen(port, function() {
     });
 },false);

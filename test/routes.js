@@ -6,12 +6,17 @@ var request = require('supertest-session')(app);
 var config = require('../app/config');
 var dbHandler = require('../app/dbHandler');
 
-
 var poll = Object.keys(config.polls)[0]; // Usa la primera encuesta
-describe('Loki', function () {
-    it('Check polls', function(done) {
-	done();
-    })
+
+// start tests
+dbHandler( function( handler ) {
+    
+    describe('Loki', function () {
+	it('Check polls', function(done) {
+	    should.exist(handler.checkPoll(poll));
+	    done();
+	})
+    });
 });
 
 describe('Routes', function() {
