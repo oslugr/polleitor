@@ -45,10 +45,11 @@ function postAnswers(poll, answers, done) {
 }
 
 $(function() {
-    var name = $(".poll").attr('data-poll-name');
-    console.log(name);
-
-    getPoll(name, function(err, res) {
+    $(".poll").each( function() {
+	var name =  $(this).attr( 'data-poll-name');
+	console.log(name);
+	getPoll(name, function(err, res) {
+	console.log( "getPoll " + name );
         if (err) {
             console.log(err);
         } else {
@@ -97,5 +98,7 @@ $(function() {
 
             });
         }
+	});
     });
+    
 });
