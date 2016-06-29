@@ -30,8 +30,10 @@ function postAnswers(poll, answers, done) {
     $.ajax({
         url: '/' + poll,
         type: "PUT",
-        data: answers,
-        dataType: 'json',
+        data: JSON.stringify({
+            "answers": answers
+        }),
+        contentType: 'application/json',
         cache: false,
         success: function(data) {
             done(null, data);
@@ -63,35 +65,37 @@ $(function() {
                         $(".poll").append("<input type='radio' name='" + val_que.id + "' value='" + id_ans + "'>" + val_ans + "<br>");
                     }
                 });
+
+                $(".poll").append("<br><button type='button' class='submit' id='" + val_que.id + "'>Enviar respuestas</button>");
+
+                $(".submit").click(function() {
+                    function Answer(id, answer) {
+                        this.id = id;
+                        this.answer = answer;
+                    }
+
+                    var answers = [];
+
+                    $.each($('input[type=radio]'), function() {
+                        if ($(this).is(":checked")) {
+                            //console.log("Question: " + $(this).attr("name") + " - Answer: " + $(this).val());
+                            var answer = new Answer($(this).attr("name"), $(this).val());
+                            answers.push(answer);
+                        }
+                    });
+
+                    //console.log(JSON.stringify(answers));
+
+                    postAnswers(name, answers, function(err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(res);
+                        }
+                    });
+                });
+
             });
-
-            //$(".poll").text(JSON.stringify(res));
         }
     });
-
-    $("#enviar").click(function() {
-        function Answer(id, answer) {
-            this.id = id;
-            this.answer = answer;
-        }
-
-        function Answers(answers) {
-            this.answers = answers;
-        }
-
-        var results = new Array();
-
-        $.each($('input[type=radio]'), function() {
-            if ($(this).is(":checked")) {
-                //console.log("Question: " + $(this).attr("name") + " - Answer: " + $(this).val());
-                var answer = new Answer($(this).attr("name"), $(this).val());
-                results.push(answer);
-            }
-        });
-
-        var answers = new Answers(results);
-
-        console.log(JSON.stringify(answers));
-    });
-
 });

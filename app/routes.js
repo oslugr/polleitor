@@ -78,31 +78,31 @@ module.exports = function(app, handler) {
         }
     });
 
-/*
-    app.get('/:poll/p/:f', function(req, res) {
-        var token = req.session.token;
+    /*
+        app.get('/:poll/p/:f', function(req, res) {
+            var token = req.session.token;
 
-        var agent = useragent.parse(req.headers['user-agent']);
-        var dev_id = (agent.toAgent() +
-            '_' + agent.os.toString() + '_' +
-            agent.device.toString()).replace(/\s/g, '');
-        var value = 'ID:' + req.params.id + '_' + dev_id;
+            var agent = useragent.parse(req.headers['user-agent']);
+            var dev_id = (agent.toAgent() +
+                '_' + agent.os.toString() + '_' +
+                agent.device.toString()).replace(/\s/g, '');
+            var value = 'ID:' + req.params.id + '_' + dev_id;
 
-        var db_collection = req.db_collection; // Código repetido
-        db_collection.insert({
-            client: {
-                dev_id: dev_id,
-                token: token
-            }
-        });
-        db.saveDatabase();
+            var db_collection = req.db_collection; // Código repetido
+            db_collection.insert({
+                client: {
+                    dev_id: dev_id,
+                    token: token
+                }
+            });
+            db.saveDatabase();
 
-        console.log(req.params);
-        var poll_to_send = {};
-        poll_to_send[req.params.id] = req.poll;
-        res.header('Content-Type', 'application/javascript');
-        res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
-    });*/
+            console.log(req.params);
+            var poll_to_send = {};
+            poll_to_send[req.params.id] = req.poll;
+            res.header('Content-Type', 'application/javascript');
+            res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
+        });*/
 
     /*app.put('/:poll/:pregunta/:respuesta', function(req, res) {
         var token = req.session.token;
@@ -125,25 +125,25 @@ module.exports = function(app, handler) {
             });
         }
     });*/
-    
-    app.put('/:poll',function(req,res){
+
+    app.put('/:poll', function(req, res) {
         var token = req.session.token;
-        var answers=req.body.answers;
-        var poll=req.params.poll;
-        
-        var correct=0;
-        var incorrect=0;
-        
-        for(var i=0;i<answers.length;i++){
+        var answers = req.body.answers;
+        var poll = req.params.poll;
+
+        var correct = 0;
+        var incorrect = 0;
+
+        for (var i = 0; i < answers.length; i++) {
             var r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token);
-            if(r) correct++;
+            if (r) correct++;
             else incorrect++;
         }
-        
+
         return res.status(200).json({
             poll: req.params.poll,
             updates: correct,
-            failedUpdates:incorrect            
+            failedUpdates: incorrect
         });
     });
 
