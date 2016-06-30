@@ -58,8 +58,6 @@ $(function() {
 		for ( var i in res ) {
                     console.log(res[i]);
                     this_div.append("<p>" + res[i].question + "</p>");
-		    //                    var def = false;
-		    
                     for ( var j in res[i].options) {
 			this_div.append("<button type='button' class='submit' data-question='"
 					+ i + "' data-poll='"+name+"' id='" + j + "' value='" + res[i].id
