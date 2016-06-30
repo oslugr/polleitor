@@ -1,7 +1,6 @@
-process.env.DBFILE = "test.json";
-
 var should = require('should');
 var config = require('../app/config');
+config.loki_db_name="test.json";
 var testInit = require('./init');
 var poll = Object.keys(config.polls)[0]; // Usa la primera encuesta
 
