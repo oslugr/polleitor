@@ -4,7 +4,8 @@
   "description": "Widget para hacer encuestas en el navegador",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.15.1",
+    "body-parser": "^1.15.2",
+    "coveralls": "^2.11.9",
     "express": "^4.14.0",
     "express-session": "^1.13.0",
     "jsonwebtoken": "^7.0.1",
@@ -13,7 +14,9 @@
     "useragent": "^2.1.9"
   },
   "devDependencies": {
-    "istanbul": "^0.4.3",
+    "groc": "^0.8.0",
+    "istanbul": "^0.4.4",
+    "jshint": "^2.9.2",
     "mocha": "^2.5.3",
     "should": "^9.0.2",
     "supertest-session": "^2.0.1"
@@ -21,7 +24,9 @@
   "scripts": {
     "test": "istanbul cover _mocha",
     "start": "node server.js",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "jshint": "jshint *.json *.js app/*.js test/*.js",
+    "doc": "rm -rf doc;groc"
   },
   "repository": {
     "type": "git",
