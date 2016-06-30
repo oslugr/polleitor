@@ -1,4 +1,4 @@
 {
   "glob": ["README.md", "server.js", "app/*js", "test/*.js"],
-  "github": false
+  "github": true
 }

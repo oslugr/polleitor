@@ -1,18 +1,28 @@
+// # Configuración de rutas
+// Configuración de las rutas de la API de Polleitor
+'use strict';
+//Desarrollado por la Oficina de Software Libre bajo licencia MIT
+
+// ## Dependencias
+// * **jwt:** JSON Web Tokens, para generar los tokens de sesión
+// * **Useragent:** Lee el valor _useragent_ para identificar usuarios
+// * **Express:** Framework web
 var jwt = require('jsonwebtoken');
 var useragent = require('useragent');
 var express = require('express');
 
+// ### Dependencias locales
+// * [**Config**](./config.html): Configuración general de Polleitor
 var config = require('./config');
 
-
+// ## Rutas
 module.exports = function(app, handler) {
-    // Middleware para crear/verificar token el token
-
+    // Middleware para crear/verificar el token
     app.use(function(req, res, next) {
-        // Obtener el token
+        //Obtener el token
         var ses = req.session;
 
-        // Verificar el token, creándolo si no existe
+        //Verificar el token, creándolo si no existe
         if (ses.token) {
             jwt.verify(ses.token, config.secret, function(err, value) {
                 if (err) {
@@ -31,14 +41,14 @@ module.exports = function(app, handler) {
                 agent.device.toString()).replace(/\s/g, '');
             var value = 'ID:' + req.params.id + '_' + dev_id;
 
-            // Crea el token
+            //Crea el token
             var token = jwt.sign(value, config.secret);
             ses.token = token;
 
             next();
         }
     });
-
+    // Middleware para comprobar que el poll dado existe
     app.use('/:poll', function(req, res, next) {
         var poll = req.params.poll;
 
@@ -51,7 +61,7 @@ module.exports = function(app, handler) {
         }
     });
 
-    // Muestra preguntas y posibles respuestas del poll
+    // GET `/:poll`: Devuelve las preguntas y posibles respuestas del poll
     app.get('/:poll', function(req, res) {
         var questions = handler.getPoll(req.params.poll);
 
@@ -66,7 +76,7 @@ module.exports = function(app, handler) {
         }
     });
 
-    // Muestra resultados del poll
+    //GET `/:poll/resultados` Muestra el poll y los resultados
     app.get('/:poll/resultados', function(req, res) {
         var answers = handler.getAnswersPoll(req.params.poll);
 
@@ -79,8 +89,7 @@ module.exports = function(app, handler) {
         }
     });
 
-    /*
-        app.get('/:poll/p/:f', function(req, res) {
+    /*app.get('/:poll/p/:f', function(req, res) {
             var token = req.session.token;
 
             var agent = useragent.parse(req.headers['user-agent']);
@@ -127,6 +136,7 @@ module.exports = function(app, handler) {
         }
     });*/
 
+    // PUT `/:poll` responde al poll
     app.put('/:poll', function(req, res) {
         var token = req.session.token;
         var answers = req.body.answers;
@@ -147,5 +157,7 @@ module.exports = function(app, handler) {
             failedUpdates: incorrect
         });
     });
-
 };
+
+// **Exports:** function(app,handler)
+// Función para añadir las rutas a la app express dada junto con el manejador de base de datos _handler_
