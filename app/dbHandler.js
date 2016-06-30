@@ -114,22 +114,3 @@ module.exports = function(done,save) {
     }
 
 };
-//var test = db.getCollection('polls');
-//console.log(test.get(1));
-
-
-/*
-encuesta:{
-    poll1:{
-        id: 
-        question: string,
-        options: [string],
-        answers: {
-            token1:option,
-            token2: option2
-        }
-},
-    poll2:{
-        ...
-    }
-}*/
