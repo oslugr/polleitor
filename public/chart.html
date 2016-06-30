@@ -19,16 +19,20 @@
   </div>
   
   <script>
+    getAnswers('TFG', function( error, answers ) {
+
+    console.log(answers);
+    var answer = answers[0];
+    var chart_label=answer.question;
     var ctx = document.getElementById("myChart");
     ctx.height=95;
-//    ctx.width=100;
     var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels: answer.options,
     datasets: [{
-    label: '# of Votes',
-    data: [12, 19, 3, 5, 2, 3],
+    label: chart_label ,
+    data: answer.answers,
     backgroundColor: [
     'rgba(255, 99, 132, 0.2)',
     'rgba(54, 162, 235, 0.2)',
@@ -57,6 +61,7 @@
     }]
     }
     }
+    });
     });
   </script>
 
