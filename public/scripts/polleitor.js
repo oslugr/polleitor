@@ -27,6 +27,7 @@ function getAnswers(poll, done) {
 }
 
 function postAnswers(poll, answers, done) {
+    console.log( answers );
     $.ajax({
         url: '/' + poll,
         type: "PUT",
@@ -63,7 +64,7 @@ $(function() {
 		    
                     $.each(val_que.options, function(id_ans, val_ans) {
 			if (!def) {
-                            this_div.append("<input type='radio' name='" + val_que.id + "' value='" + id_ans + "' checked='checked'>" + val_ans + "<br>");
+                            this_div.append("<input type='radio' name='" + name + "-" + val_que.id + "' value='" + id_ans + "' checked='checked'>" + val_ans + "<br>");
                             def = true;
 			} else {
                             this_div.append("<input type='radio' name='" + val_que.id + "' value='" + id_ans + "'>" + val_ans + "<br>");
@@ -81,14 +82,14 @@ $(function() {
 			var answers = [];
 			
 			$.each($('input[type=radio]'), function() {
-                            if (this_div.is(":checked")) {
-				//console.log("Question: " + this_div.attr("name") + " - Answer: " + this_div.val());
+                            if ($(this).is(":checked")) {
+				console.log("Question: " + this_div.attr("name") + " - Answer: " + this_div.val());
 				var answer = new Answer(this_div.attr("name"), this_div.val());
 				answers.push(answer);
                             }
 			});
 			
-			//console.log(JSON.stringify(answers));
+			console.log(JSON.stringify(answers));
 			
 			postAnswers(name, answers, function(err, res) {
                             if (err) {
