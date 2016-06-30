@@ -56,7 +56,6 @@ $(function() {
 		console.log(err);
             } else {
 		for ( var i in res ) {
-                    console.log(res[i]);
                     this_div.append("<p>" + res[i].question + "</p>");
                     for ( var j in res[i].options) {
 			this_div.append("<button type='button' class='submit' data-question='"
@@ -71,8 +70,6 @@ $(function() {
 	
     });
 
-    console.log( "Events ");
-    
 });
 
 // Binding a elementos generados dinámicamente según http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
