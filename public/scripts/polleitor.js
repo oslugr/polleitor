@@ -49,11 +49,9 @@ $(function() {
     $(".poll").each( function() {
 	var this_div = $(this);
 	var name =  this_div.attr( 'data-poll-name');
-	console.log(name);
 	
 	getPoll(name, function(err, res) {
-	    console.log( "getPoll " + name );
-	    console.log( res );
+
             if (err) {
 		console.log(err);
             } else {
@@ -72,25 +70,28 @@ $(function() {
 		};
             }
 	});
-
-	$(".submit").click(function() {
-	    function Answer(id, answer) {
-		this.id = id;
-		this.answer = answer;
-	    }
-	    
-	    var answers = [];
-	    
-	    console.log(JSON.stringify(answers));
-	    
-	    postAnswers(name, answers, function(err, res) {
-		if (err) {
-		    console.log(err);
-		} else {
-		    console.log(res);
-		}
-	    });
-	});
 	
+    });
+
+    console.log( "Events ");
+    
+});
+
+// Binding a elementos generados dinámicamente según http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
+$(document).on( "click", ".submit", function() {
+    function Answer(id, answer) {
+	this.id = id;
+	this.answer = answer;
+    }
+    
+    var answer = new Answer($(this).attr("id"), $(this).attr('value'));
+    var name = $(this).attr('data-poll');
+    console.log( answer );
+    postAnswers(name, [answer], function(err, res) {
+	if (err) {
+	    console.log(err);
+	} else {
+	    console.log(res);
+	}
     });
 });
