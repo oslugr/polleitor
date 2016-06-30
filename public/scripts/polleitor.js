@@ -84,7 +84,7 @@ $(document).on( "click", ".submit", function() {
 	this.answer = answer;
     }
     
-    var answer = new Answer($(this).attr("id"), $(this).attr('value'));
+    var answer = new Answer($(this).attr("value"), $(this).attr('id'));
     var name = $(this).attr('data-poll');
     console.log( answer );
     postAnswers(name, [answer], function(err, res) {
