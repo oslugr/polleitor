@@ -29,9 +29,19 @@ app.use(bodyParser.json());
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 
-dbHandler(function(handler) {
-    routes(app, handler);
-    app.listen(port, function() {
-    });
-},false);
-module.exports = app;
+var server;
+module.exports = {
+    init: function(done) {
+        dbHandler(function(handler) {
+            routes(app, handler);
+            server=app.listen(port, function() {
+                done(app, handler);
+            });
+        }, false);
+    },
+    close: function(){
+        server.close();
+        
+        
+    }
+};

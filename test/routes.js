@@ -1,25 +1,40 @@
 process.env.DBFILE = "test.json";
 
 var should = require('should');
-var app = require('./utils');
-var request = require('supertest-session')(app);
 var config = require('../app/config');
-var dbHandler = require('../app/dbHandler');
-
+var testInit = require('./init');
 var poll = Object.keys(config.polls)[0]; // Usa la primera encuesta
 
+var supertest = require('supertest-session');
+
 // start tests
-dbHandler( function( handler ) {
+/*dbHandler( function( handler ) {
     
     describe('Loki', function () {
 	it('Check polls', function(done) {
 	    should.exist(handler.checkPoll(poll));
 	    done();
-	})
+	});
     });
-});
+});*/
 
 describe('Routes', function() {
+    var app;
+    var dbHandler;
+    var request;
+    before(function(done) {
+        testInit.init(function(app2, handler) {
+            should.exist(app2);
+            should.exist(handler);
+            app = app2;
+            dbHandler = handler;
+            request = supertest(app);
+            done();
+        });
+    });
+    after(function(){
+        testInit.close();
+    });
     it('Get poll', function(done) {
         request.get('/' + poll)
             .expect(200)
@@ -91,7 +106,6 @@ describe('Routes', function() {
                         }]
                     })
                     .end(function(err, res) {
-			console.log( res );
                         should.not.exist(err);
                         should.exist(res.body);
                         res.body.should.have.property('updates', 1);
