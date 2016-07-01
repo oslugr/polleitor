@@ -10,15 +10,24 @@
 <pre><code class="lang-bash">npm <span class="hljs-built_in">test</span></code></pre>
 <p>Iniciar servidor:</p>
 <pre><code class="lang-bash">npm start</code></pre>
-<p>Generar esta documentación:</p>
-<pre><code class="lang-bash">npm install -g groc
-npm doc</code></pre>
 <p>De ahí, te vas al menú Principal de Polleitor en <a href="http://localhost:3000">http://localhost:3000</a>
 y listo. Aparecerá una pequeña demo.</p>
 <p>Si usas <a href="http://heroku.com">Heroku</a>, cambia <code>repository</code> en el fichero de configuración <code>app.json</code> y</p>
 <pre><code>heroku login
 heroku git:remote -a mi-proyecto-en-heroku
 git push heroku master</code></pre>
+<h2 id="documentacin">Documentación</h2>
+<p>Generar esta documentación:</p>
+<pre><code class="lang-bash">npm install -g groc
+npm doc</code></pre>
+<p>La documentación está en la
+<a href="https://github.com/oslugr/polleitor/tree/gh-pages">rama <code>gh-pages</code> de este repo</a>
+y deplegada en GitHub. Los ficheros principales son</p>
+<ul>
+<li><a href="http://oslugr.github.io/polleitor/routes.html">Rutas</a></li>
+<li><a href="http://oslugr.github.io/polleitor/config.html">Configuración</a>,
+donde efectivamente se crean las encuestas</li>
+</ul>
 <h2 id="api">API</h2>
 <p>Se accede al servicio mediante una API REST:</p>
 <table>
