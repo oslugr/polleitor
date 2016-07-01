@@ -84,9 +84,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "projectPath": "app/config.js",
         "targetPath": "config",
         "pageTitle": "config",
-        "title": "config"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Configuración de polleitor",
+            "slug": "configuracin-de-polleitor",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Configuración de polleitor"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -103,9 +114,101 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "projectPath": "app/dbHandler.js",
         "targetPath": "dbHandler",
         "pageTitle": "dbHandler",
-        "title": "dbHandler"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Database Handler",
+            "slug": "database-handler",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias Locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Conexión con Lokijs",
+                "slug": "conexin-con-lokijs"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 4,
+                    "title": "DB Handler",
+                    "slug": "db-handler"
+                  },
+                  "depth": 4
+                }
+              ]
+            }
+          ]
+        },
+        "title": "Database Handler"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Dependencias",
+            "slug": "dependencias"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Dependencias Locales",
+                "slug": "dependencias-locales"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Conexión con Lokijs",
+            "slug": "conexin-con-lokijs"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 4,
+                "title": "DB Handler",
+                "slug": "db-handler"
+              },
+              "depth": 4
+            }
+          ]
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -122,9 +225,79 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "projectPath": "app/routes.js",
         "targetPath": "routes",
         "pageTitle": "routes",
-        "title": "routes"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Configuración de rutas",
+            "slug": "configuracin-de-rutas",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Rutas",
+                "slug": "rutas"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Configuración de rutas"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Dependencias",
+            "slug": "dependencias"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Dependencias locales",
+                "slug": "dependencias-locales"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Rutas",
+            "slug": "rutas"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
