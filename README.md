@@ -18,15 +18,27 @@ Tras clonar de este repo:
 ```bash
 npm install
 ```
+
 Ejecutar Tests (opcional):
 ```bash
 npm test
 ```
+
 Iniciar servidor:
 ```bash
 npm start
 ```
+
 Menú Principal de Polleitor en http://localhost:3000 y listo.
+
+Si usas [Heroku](http://heroku.com), cambia `repository` en el fichero
+de configuración `app.json` y
+
+    heroku login
+	heroku git:remote -a mi-proyecto-en-heroku
+	git push heroku master
+
+
 
 
 ## API
