@@ -25,7 +25,14 @@ Iniciar servidor:
 npm start
 ```
 
-Menú Principal de Polleitor en http://localhost:3000 y listo.
+Generar esta documentación:
+```bash
+npm install -g groc
+npm doc
+```
+
+De ahí, te vas al menú Principal de Polleitor en http://localhost:3000
+y listo. Aparecerá una pequeña demo.
 
 Si usas [Heroku](http://heroku.com), cambia `repository` en el fichero de configuración `app.json` y
 
