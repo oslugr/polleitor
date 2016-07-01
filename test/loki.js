@@ -77,12 +77,14 @@ describe('Loki', function() {
             should.exist(handler);
             handler.answerQuestion(poll, 1, 0, "mytoken");
             //TODO: comprobar que el fichero es correcto
-            try {
-                fs.unlinkSync('./test.json'); //Borra el fichero, falla si no existe
-            } catch (err) {
-                should.not.exist(err);
-            }
-            done();
+            setTimeout(function() {
+                try {
+                    fs.unlinkSync('./test.json'); //Borra el fichero, falla si no existe
+                } catch (err) {
+                    should.not.exist(err);
+                }
+                done();
+            }, 500);
         }, true);
     });
 });
