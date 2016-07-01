@@ -22,6 +22,9 @@
 		</script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js'></script>
+
 		<script src="/js/polleitor.js"></script>
 
 	</head>
@@ -35,6 +38,14 @@
 
 	      <section>    
 		<div class="poll" data-poll-name="TFG"></div>
+	      </section>
+
+	      <section>
+		<canvas id="asignatura_chart"></canvas>
+	      </section>
+
+	      <section>
+		<canvas id="TFG_chart"></canvas>
 	      </section>
 
 	    </div>
@@ -57,6 +68,27 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+
+		 // Código para presentar gráficos
+		 var slide_re = /\#\/(\d+)/;
+		 Reveal.addEventListener( 'slidechanged', function( event ) {
+		   if ( typeof event.previousSlide !== 'undefined' ) {
+		     var base_URI= event.previousSlide.baseURI;
+		     
+		     console.log(base_URI);
+		     var last_slide =  slide_re.exec(base_URI)[1];
+		     console.log("Esta "+last_slide);
+		     if ( last_slide === '1' ) {
+		       console.log( base_URI);
+		       plot_chart( 'asignatura', 'asignatura_chart');
+		     }
+		     if ( last_slide === '2' ) {
+		       console.log( base_URI);
+		       plot_chart( 'TFG', 'TFG_chart');
+		     }
+		   }
+		 } );
+
 		</script>
 	</body>
 </html>
