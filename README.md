@@ -40,7 +40,7 @@ Si usas [Heroku](http://heroku.com), cambia `repository` en el fichero de config
 Generar esta documentación:
 ```bash
 npm install -g groc
-npm doc
+groc
 ```
 
 La documentación está en la
