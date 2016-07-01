@@ -34,14 +34,14 @@ module.exports = {
     init: function(done) {
         dbHandler(function(handler) {
             routes(app, handler);
-            server=app.listen(port, function() {
+            server = app.listen(port, function() {
                 done(app, handler);
             });
         }, false);
     },
-    close: function(){
+    close: function() {
         server.close();
-        
-        
+
+
     }
 };

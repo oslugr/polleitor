@@ -15,7 +15,4 @@ script:
   - npm test
 
 after_success:
-    if ([ "$TRAVIS_BRANCH" == "master" ]); then
         - npm run coveralls
-        - npm run doc
-    fi
