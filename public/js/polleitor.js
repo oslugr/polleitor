@@ -128,6 +128,9 @@ $(document).on( "click", ".submit", function() {
     
     var answer = new Answer($(this).attr("value"), $(this).attr('id'));
     var name = $(this).attr('data-poll');
+    $("button[data-poll='"+name+"']").each( function() {
+	$(this).attr('disabled',true);
+    });
     console.log( answer );
     postAnswers(name, [answer], function(err, res) {
 	if (err) {
