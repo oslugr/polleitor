@@ -1,0 +1,8 @@
+{
+  "name": "Polleitor test",
+  "description": "A framework for creating polls",
+  "repository": "https://github.com/oslugr/polleitor",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "static"],
+  "image": "heroku/nodejs"
+}
