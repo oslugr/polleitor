@@ -69,12 +69,14 @@ config.loki_db_name = <span class="hljs-string">"test.json"</span>;
             should.exist(handler);
             handler.answerQuestion(poll, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-string">"mytoken"</span>);
             <span class="hljs-comment">//<span class="hljs-doctag">TODO:</span> comprobar que el fichero es correcto</span>
-            <span class="hljs-keyword">try</span> {
-                fs.unlinkSync(<span class="hljs-string">'./test.json'</span>); <span class="hljs-comment">//Borra el fichero, falla si no existe</span>
-            } <span class="hljs-keyword">catch</span> (err) {
-                should.not.exist(err);
-            }
-            done();
+            setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                <span class="hljs-keyword">try</span> {
+                    fs.unlinkSync(<span class="hljs-string">'./test.json'</span>); <span class="hljs-comment">//Borra el fichero, falla si no existe</span>
+                } <span class="hljs-keyword">catch</span> (err) {
+                    should.not.exist(err);
+                }
+                done();
+            }, <span class="hljs-number">500</span>);
         }, <span class="hljs-literal">true</span>);
     });
 });</div></div></div></div></body></html>
