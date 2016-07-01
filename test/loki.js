@@ -27,7 +27,7 @@ describe('Loki', function() {
     });
     after(function() {
         testInit.close();
-            fs.unlinkSync('./test.json'); //Deletes file, fails if not file found
+        fs.unlinkSync('./test.json'); //Deletes file, fails if not file found
     });
     it('Check polls', function(done) {
         dbHandler.checkPoll(poll).should.be.true();
