@@ -7,7 +7,7 @@
 // ## Dependencias
 // * **Express:** Framework web
 //   * **Express session:** Middleware de gestión de sesiones con express
-//   * **body-parser:** Middleware para gestionar el _body_ de las peticiones
+//   * **Body-parser:** Middleware para gestionar el _body_ de las peticiones
 // * **Morgan:** Logger de peticiones para el servidor
 
 var express = require('express');
@@ -36,7 +36,6 @@ var sessionOptions = {
 
 // Puerto (variable de entorno PORT, 3000 por defecto)
 var port = process.env.PORT || 3000;
-
 
 // ## Middlewares
 // * **BodyParser:** Configurado para leer jsons

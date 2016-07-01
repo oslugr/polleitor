@@ -1,5 +1,5 @@
 # Polleitor
-_Version 0.3_
+_Version 0.1.0_    
 [![Build Status](https://travis-ci.org/oslugr/polleitor.svg?branch=master)](https://travis-ci.org/oslugr/polleitor)
 [![Coverage Status](https://coveralls.io/repos/github/oslugr/polleitor/badge.svg?branch=master)](https://coveralls.io/github/oslugr/polleitor?branch=master)
 
@@ -42,11 +42,10 @@ de configuración `app.json` y
 
 
 ## API
+Se accede al servicio mediante una API REST:
 
-Se accede al servicio mediante una API REST
-
-| **Método** | **Ruta**           | **Descripción**                        | **Resultado**                  |
-|:----------:|:------------------:|:--------------------------------------:|:------------------------------:|
-| GET        |`:poll`             | Devuelve las preguntas de una encuesta |`[{question,options,id}]`       |
-| GET        |`:poll/resultados`  | Resultados del poll                    |`[{question,options,id,answers}]`|
-| PUT        |`:poll`             | Responde al poll [{id,answer}]         |`{poll,updates,failedUpdates}`  |
+| **Método** | **Ruta**           | **Descripción**       | **Petición**| **Respuesta**|
+|:----------:|:------------------:|:---------------------:|:-----------:|:------------:|
+| GET        |`:poll`             | Devuelve las preguntas de una encuesta |Sin cuerpo en la petición|`[{question,[options],id}]`|
+| GET        |`:poll/resultados`  | Devuelve el poll y los resultados|Sin cuerpo en la petición|`[{question,[options],id,[answers]}]`|
+| PUT        |`:poll`             | Envía respuestas a las preguntas de un poll |`[{id,answer}]`|`{poll,updates,failedUpdates}`|
