@@ -52,7 +52,6 @@ function postAnswers(poll, answers, done) {
       var answer = answers[0];
       var chart_label=answer.question;
       var ctx = document.getElementById(chart_id);
-      ctx.height=95;
       var myChart = new Chart(ctx, {
 	type: 'bar',
 	data: {
