@@ -55,7 +55,7 @@
 	  <script src="js/reveal.js"></script>
 
 		
-		<script>
+	  <script>
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
@@ -75,9 +75,9 @@
 		   if ( typeof event.previousSlide !== 'undefined' ) {
 		     var base_URI= event.previousSlide.baseURI;
 		     
-		     console.log(base_URI);
+//		     console.log(base_URI);
 		     var last_slide =  slide_re.exec(base_URI)[1];
-		     console.log("Esta "+last_slide);
+//		     console.log("Esta "+last_slide);
 		     if ( last_slide === '1' ) {
 		       console.log( base_URI);
 		       plot_chart( 'asignatura', 'asignatura_chart');
