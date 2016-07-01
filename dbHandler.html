@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en"><head><title>dbHandler</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="dbHandler"><meta name="groc-project-path" content="app/dbHandler.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/app/dbHandler.js">app/dbHandler.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="database-handler">Database Handler</h1>
+<p>Gestión de la base de datos <strong>Lokijs</strong></p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
+<span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="dependencias">Dependencias</h2>
+<ul>
+<li><strong>Lokijs:</strong> Base de datos no relacional en memoria</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> loki = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lokijs'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="dependencias-locales">Dependencias Locales</h3>
+<ul>
+<li><a href="./config.html"><strong>Config</strong></a>: Configuración general de Polleitor</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./config'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="conexin-con-lokijs">Conexión con Lokijs</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done,save</span>) </span>{
+    <span class="hljs-keyword">if</span>(save!==<span class="hljs-literal">false</span>) save=<span class="hljs-literal">true</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Configuración de lokijs</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">var</span> db = <span class="hljs-keyword">new</span> loki(config.loki_db_name, {
+        autosave: save,
+        autosaveInterval: <span class="hljs-number">1000</span>,
+        autoload: <span class="hljs-literal">true</span>,
+        autoloadCallback: loadHandler
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="db-handler">DB Handler</h4>
+<p>Objeto manejador de base de datos:</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">var</span> dbHandler = {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>polls:</strong> Array con los nombres (ids) de las polls existentes en la BDD</li>
+</ul></div></div><div class="code"><div class="wrapper">        polls: [],</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>getPoll(poll):</strong> Devuelve un array los datos del poll con el nombre dado, null si no existe el poll</li>
+</ul></div></div><div class="code"><div class="wrapper">        getPoll: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poll</span>) </span>{
+            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.checkPoll(poll)) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">var</span> res = db.getCollection(poll).data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">q</span>) </span>{
+                <span class="hljs-keyword">return</span> {
+                    question: q.question,
+                    options: q.options,
+                    id: q.$loki
+                };
+            });
+            <span class="hljs-keyword">if</span> (!res || res.length === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> res;
+        },
+        <span class="hljs-comment">/*getQuestion: function(poll, id) {
+            var q = db.getCollection(poll).get(id);
+            return {
+                question: q.question,
+                options: q.options,
+                id: q.$loki
+            };
+        },*/</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>answerQuestion(poll,id,answer,token):</strong> Responde la pregunta del id dado dnetro del poll. La respuesta será el índice <em>answer</em> de la opción elegida.La respuesta será asignada al token enviado.</li>
+</ul></div></div><div class="code"><div class="wrapper">        answerQuestion: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poll, id, answer, token</span>) </span>{
+            <span class="hljs-keyword">var</span> coll = db.getCollection(poll);
+            <span class="hljs-keyword">var</span> q = coll.get(id);
+            <span class="hljs-keyword">if</span> (!coll || !token || !q || q.answers[token] !== <span class="hljs-literal">undefined</span> || answer &lt; <span class="hljs-number">0</span> || answer &gt;= q.options.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            <span class="hljs-keyword">else</span> {
+                q.answers[token] = answer;
+                coll.update(q);
+                <span class="hljs-keyword">if</span>(save) db.saveDatabase();
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            }
+        },
+        <span class="hljs-comment">/*getAnswers: function(poll, id) {
+            if (!this.checkPoll(poll)) return null;
+            var question = db.getCollection(poll).get(id);
+            if (!question) return null;
+            var results = [];
+            for (var i = 0; i &lt; question.options.length; i++) {
+                results[i] = 0;
+            }
+            for (i in question.answers) {
+                results[question.answers[i]]++;
+
+            }
+            return {
+                options: question.options,
+                answers: results
+            };
+        },*/</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>getAnswersPoll(poll):</strong> Devuelve el poll pedido con las respuestas de este. null si no existe</li>
+</ul></div></div><div class="code"><div class="wrapper">        getAnswersPoll: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poll</span>) </span>{
+            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.checkPoll(poll)) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">var</span> answers = db.getCollection(poll).data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">question</span>) </span>{
+                <span class="hljs-keyword">var</span> results = [];
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; question.options.length; i++) {
+                    results[i] = <span class="hljs-number">0</span>;
+                }
+                <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> question.answers) {
+                    results[question.answers[i]]++;
+
+                }
+                <span class="hljs-keyword">return</span> {
+                    question: question.question,
+                    options: question.options,
+                    answers: results,
+                    id: question.$loki
+                };
+            });
+            <span class="hljs-keyword">if</span> (!answers || answers.length === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> answers;
+        },</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>checkPoll(poll):</strong> Comprueba si existe el poll dado</li>
+</ul></div></div><div class="code"><div class="wrapper">        checkPoll: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poll</span>) </span>{
+            <span class="hljs-keyword">if</span> (!poll || !db.getCollection(poll)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+    };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Función de carga de base de datos. Creará las colecciónes de la configuración si no existen y leerá el archivo de la BDD</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadHandler</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Loading DB: "</span> + config.loki_db_name);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> p <span class="hljs-keyword">in</span> config.polls) {
+            <span class="hljs-keyword">var</span> coll = db.getCollection(p);
+            <span class="hljs-keyword">if</span> (coll === <span class="hljs-literal">null</span>) {
+                <span class="hljs-keyword">var</span> poll = config.polls[p];
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Creating poll "</span> + p);
+                coll = db.addCollection(p);
+
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; poll.length; i++) {
+                    <span class="hljs-keyword">var</span> quest = poll[i];
+                    coll.insert({
+                        question: quest.q,
+                        options: quest.a,
+                        answers: {}
+                    });
+                }
+            } <span class="hljs-keyword">else</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Loading poll "</span> + p);
+            dbHandler.polls.push(p);
+        }
+        done(dbHandler);
+    }
+};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>Exports:</strong> function(done,save) para desplegar la base de datos</p>
+<ul>
+<li>done(dbHandler): callback ejecutado tras iniciar la conexión con la base de datos</li>
+<li><strong>save:</strong> booleano para indicar si se debe guardar la BDD en un archivo o no (por defecto a <em>true</em>)</li>
+</ul></div></div></div></div></body></html>

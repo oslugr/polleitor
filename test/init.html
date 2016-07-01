@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><title>test/init</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="test/init"><meta name="groc-project-path" content="test/init.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/test/init.js">test/init.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="init-tests">Init Tests</h1>
+<p>Inicialización de servidor para pruebas</p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
+<span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="dependencias">Dependencias</h2>
+<ul>
+<li><strong>Express:</strong> Framework web<ul>
+<li><strong>Express session:</strong> Middleware de gestión de sesiones con express</li>
+<li><strong>body-parser:</strong> Middleware para gestionar el <em>body</em> de las peticiones</li>
+</ul>
+</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">var</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-session'</span>);
+<span class="hljs-keyword">var</span> app = express();
+<span class="hljs-keyword">var</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'body-parser'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="dependencias-locales">Dependencias locales</h3>
+<ul>
+<li><a href="../config.html"><strong>Config</strong></a>: Configuración general de Polleitor</li>
+<li><a href="../routes.html"><strong>Routes</strong></a>: Rutas y API de Polleitor</li>
+<li><a href="../dbHandler.html"><strong>DBHandler</strong></a>: Manejador de la base de datos</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../app/config'</span>);
+<span class="hljs-keyword">var</span> routes = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../app/routes'</span>);
+<span class="hljs-keyword">var</span> dbHandler = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../app/dbHandler'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="configuracin">Configuración</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Opciones de sesiones</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> sessionOptions = {
+    secret: config.secret,
+    resave: <span class="hljs-literal">true</span>,
+    saveUninitialized: <span class="hljs-literal">false</span>
+};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Puerto (variable de entorno PORT, 3000 por defecto)</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> port = process.env.PORT || <span class="hljs-number">3000</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="middlewares">Middlewares</h2>
+<ul>
+<li><strong>BodyParser:</strong> Configurado para leer jsons</li>
+<li><strong>Session:</strong> Opciones de sesiones</li>
+<li><strong>Static:</strong> Carpeta <code>public</code> como carpeta para servir archivos estáticos</li>
+</ul></div></div><div class="code"><div class="wrapper">app.use(bodyParser.urlencoded({
+    extended: <span class="hljs-literal">false</span>
+}));
+app.use(bodyParser.json());
+app.use(session(sessionOptions));
+app.use(express.static(<span class="hljs-string">'public'</span>));
+
+
+<span class="hljs-keyword">var</span> server;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>Exports</strong></p>
+<ul>
+<li><code>init(done)</code> inicializa servidor de base de datos, ejecuta el callback <code>done(app,handler)</code>, con la app del servidor y el manejador de la BDD como parámetros</li>
+<li><code>close()</code> cierra el servidor</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.exports = {
+    init: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+        dbHandler(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">handler</span>) </span>{
+            routes(app, handler);
+            server = app.listen(port, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                done(app, handler);
+            });
+        }, <span class="hljs-literal">false</span>);
+    },
+    close: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        server.close();
+    }
+};</div></div></div></div></body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/README.md">README.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="polleitor">Polleitor</h1>
+<p><em>Version 0.1.0</em><br><a href="https://travis-ci.org/oslugr/polleitor"><img src="https://travis-ci.org/oslugr/polleitor.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/oslugr/polleitor?branch=master"><img src="https://coveralls.io/repos/github/oslugr/polleitor/badge.svg?branch=master" alt="Coverage Status"></a></p>
+<p>Sistema cliente-servidor para crear widgets de encuestas.</p>
+<p>La parte servidor usa LokiDB para almacenar las encuestas y
+resultados y funciona con REST, la parte cliente JavaScript para
+configurar las encuestas y enviar los resultados.</p>
+<p>La configuración se hace en el servidor y en él se almacenan los
+resultados.</p>
+<h2 id="instalacin">Instalación</h2>
+<p>Tras clonar de este repo:</p>
+<pre><code class="lang-bash">npm install</code></pre>
+<p>Ejecutar Tests (opcional):</p>
+<pre><code class="lang-bash">npm <span class="hljs-built_in">test</span></code></pre>
+<p>Iniciar servidor:</p>
+<pre><code class="lang-bash">npm start</code></pre>
+<p>Menú Principal de Polleitor en <a href="http://localhost:3000">http://localhost:3000</a> y listo.</p>
+<p>Si usas <a href="http://heroku.com">Heroku</a>, cambia <code>repository</code> en el fichero
+de configuración <code>app.json</code> y</p>
+<pre><code>heroku login
+heroku git:remote -a mi-proyecto-en-heroku
+git push heroku master</code></pre>
+<h2 id="api">API</h2>
+<p>Se accede al servicio mediante una API REST:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>Método</strong></th>
+<th style="text-align:center"><strong>Ruta</strong></th>
+<th style="text-align:center"><strong>Descripción</strong></th>
+<th style="text-align:center"><strong>Petición</strong></th>
+<th style="text-align:center"><strong>Respuesta</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center"><code>:poll</code></td>
+<td style="text-align:center">Devuelve las preguntas de una encuesta</td>
+<td style="text-align:center">Sin cuerpo en la petición</td>
+<td style="text-align:center"><code>[{question,[options],id}]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center"><code>:poll/resultados</code></td>
+<td style="text-align:center">Devuelve el poll y los resultados</td>
+<td style="text-align:center">Sin cuerpo en la petición</td>
+<td style="text-align:center"><code>[{question,[options],id,[answers]}]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">PUT</td>
+<td style="text-align:center"><code>:poll</code></td>
+<td style="text-align:center">Envía respuestas a las preguntas de un poll</td>
+<td style="text-align:center"><code>[{id,answer}]</code></td>
+<td style="text-align:center"><code>{poll,updates,failedUpdates}</code></td>
+</tr>
+</tbody>
+</table></div></div></div></div></body></html>

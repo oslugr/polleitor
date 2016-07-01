@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><title>server</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="server"><meta name="groc-project-path" content="server.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/server.js">server.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="main-app">Main app</h1>
+<p>Servidor principal de <strong>Polleitor</strong></p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
+<span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="dependencias">Dependencias</h2>
+<ul>
+<li><strong>Express:</strong> Framework web<ul>
+<li><strong>Express session:</strong> Middleware de gestión de sesiones con express</li>
+<li><strong>Body-parser:</strong> Middleware para gestionar el <em>body</em> de las peticiones</li>
+</ul>
+</li>
+<li><strong>Morgan:</strong> Logger de peticiones para el servidor</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">var</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-session'</span>);
+<span class="hljs-keyword">var</span> app = express();
+<span class="hljs-keyword">var</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'body-parser'</span>);
+<span class="hljs-keyword">var</span> morgan = <span class="hljs-built_in">require</span>(<span class="hljs-string">'morgan'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="dependencias-locales">Dependencias locales</h3>
+<ul>
+<li><a href="./config.html"><strong>Config</strong></a>: Configuración general de Polleitor</li>
+<li><a href="./routes.html"><strong>Routes</strong></a>: Rutas y API de Polleitor</li>
+<li><a href="./dbHandler.html"><strong>DBHandler</strong></a>: Manejador de la base de datos</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./app/config'</span>);
+<span class="hljs-keyword">var</span> routes = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./app/routes'</span>);
+<span class="hljs-keyword">var</span> dbHandler = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./app/dbHandler'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="configuracin">Configuración</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Opciones de sesiones</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> sessionOptions = {
+    secret: config.secret,
+    resave: <span class="hljs-literal">true</span>,
+    saveUninitialized: <span class="hljs-literal">false</span>
+};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Puerto (variable de entorno PORT, 3000 por defecto)</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> port = process.env.PORT || <span class="hljs-number">3000</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="middlewares">Middlewares</h2>
+<ul>
+<li><strong>BodyParser:</strong> Configurado para leer jsons</li>
+<li><strong>Morgan:</strong> Configurado en modo desarrollo (dev)</li>
+<li><strong>Session:</strong> Opciones de sesiones</li>
+<li><strong>Static:</strong> Carpeta <code>public</code> como carpeta para servir archivos estáticos</li>
+</ul></div></div><div class="code"><div class="wrapper">app.use(bodyParser.urlencoded({
+    extended: <span class="hljs-literal">false</span>
+}));
+app.use(bodyParser.json());
+app.use(morgan(<span class="hljs-string">'dev'</span>));
+app.use(session(sessionOptions));
+app.use(express.static(<span class="hljs-string">'public'</span>));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Despliegue del servidor y base de datos</p></div></div><div class="code"><div class="wrapper">dbHandler(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">handler</span>) </span>{
+    routes(app, handler);
+
+    app.listen(port, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Servidor corriendo en http://localhost:'</span> + port);
+    });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>Exports:</strong> app</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.exports = app;</div></div></div></div></body></html>

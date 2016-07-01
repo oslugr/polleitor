@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><title>routes</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="routes"><meta name="groc-project-path" content="app/routes.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/app/routes.js">app/routes.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="configuracin-de-rutas">Configuración de rutas</h1>
+<p>Configuración de las rutas de la API de Polleitor</p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
+<span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="dependencias">Dependencias</h2>
+<ul>
+<li><strong>jwt:</strong> JSON Web Tokens, para generar los tokens de sesión</li>
+<li><strong>Useragent:</strong> Lee el valor <em>useragent</em> para identificar usuarios</li>
+<li><strong>Express:</strong> Framework web</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jsonwebtoken'</span>);
+<span class="hljs-keyword">var</span> useragent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'useragent'</span>);
+<span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="dependencias-locales">Dependencias locales</h3>
+<ul>
+<li><a href="./config.html"><strong>Config</strong></a>: Configuración general de Polleitor</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./config'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="rutas">Rutas</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">app, handler</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Middleware para crear/verificar el token</p></div></div><div class="code"><div class="wrapper">    app.use(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>{
+        <span class="hljs-comment">//Obtener el token</span>
+        <span class="hljs-keyword">var</span> ses = req.session;
+
+        <span class="hljs-comment">//Verificar el token, creándolo si no existe</span>
+        <span class="hljs-keyword">if</span> (ses.token) {
+            jwt.verify(ses.token, config.secret, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, value</span>) </span>{
+                <span class="hljs-keyword">if</span> (err) {
+                    <span class="hljs-keyword">return</span> res.json(<span class="hljs-number">403</span>, {
+                        success: <span class="hljs-literal">false</span>,
+                        message: <span class="hljs-string">'Failed to verify the token. Unauthorized access.'</span>
+                    });
+                } <span class="hljs-keyword">else</span> {
+                    next();
+                }
+            });
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">var</span> agent = useragent.parse(req.headers[<span class="hljs-string">'user-agent'</span>]);
+            <span class="hljs-keyword">var</span> dev_id = (agent.toAgent() +
+                <span class="hljs-string">'_'</span> + agent.os.toString() + <span class="hljs-string">'_'</span> +
+                agent.device.toString()).replace(<span class="hljs-regexp">/\s/g</span>, <span class="hljs-string">''</span>);
+            <span class="hljs-keyword">var</span> value = <span class="hljs-string">'ID:'</span> + req.params.id + <span class="hljs-string">'_'</span> + dev_id;
+
+            <span class="hljs-comment">//Crea el token</span>
+            <span class="hljs-keyword">var</span> token = jwt.sign(value, config.secret);
+            ses.token = token;
+
+            next();
+        }
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Middleware para comprobar que el poll dado existe</p></div></div><div class="code"><div class="wrapper">    app.use(<span class="hljs-string">'/:poll'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>{
+        <span class="hljs-keyword">var</span> poll = req.params.poll;
+
+        <span class="hljs-keyword">if</span> (!handler.checkPoll(poll)) {
+            res.status(<span class="hljs-number">404</span>).json({
+                error: <span class="hljs-string">'Poll '</span> + poll + <span class="hljs-string">' not found.'</span>
+            });
+        } <span class="hljs-keyword">else</span> {
+            next();
+        }
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>GET <code>/:poll</code>: Devuelve las preguntas y posibles respuestas del poll</p></div></div><div class="code"><div class="wrapper">    app.get(<span class="hljs-string">'/:poll'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+        <span class="hljs-keyword">var</span> questions = handler.getPoll(req.params.poll);
+
+        <span class="hljs-keyword">if</span> (!questions) {
+            <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).json({
+                status: <span class="hljs-number">404</span>,
+                error: <span class="hljs-string">'Not poll found.'</span>,
+                poll: req.params.poll
+            });
+        } <span class="hljs-keyword">else</span> {
+            res.json(questions);
+        }
+    });
+
+    <span class="hljs-comment">//GET `/:poll/resultados` Muestra el poll y los resultados</span>
+    app.get(<span class="hljs-string">'/:poll/resultados'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+        <span class="hljs-keyword">var</span> answers = handler.getAnswersPoll(req.params.poll);
+
+        <span class="hljs-keyword">if</span> (!answers) {
+            <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).json({
+                error: <span class="hljs-string">'Poll '</span> + req.params.poll + <span class="hljs-string">' not found.'</span>
+            });
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> res.json(answers);
+        }
+    });
+
+    <span class="hljs-comment">/*app.get('/:poll/p/:f', function(req, res) {
+            var token = req.session.token;
+
+            var agent = useragent.parse(req.headers['user-agent']);
+            var dev_id = (agent.toAgent() +
+                '_' + agent.os.toString() + '_' +
+                agent.device.toString()).replace(/\s/g, '');
+            var value = 'ID:' + req.params.id + '_' + dev_id;
+
+            var db_collection = req.db_collection; // Código repetido
+            db_collection.insert({
+                client: {
+                    dev_id: dev_id,
+                    token: token
+                }
+            });
+            db.saveDatabase();
+
+            console.log(req.params);
+            var poll_to_send = {};
+            poll_to_send[req.params.id] = req.poll;
+            res.header('Content-Type', 'application/javascript');
+            res.send(req.params.f + '( ' + JSON.stringify(poll_to_send) + ')');
+        });*/</span>
+
+    <span class="hljs-comment">/*app.put('/:poll/:pregunta/:respuesta', function(req, res) {
+        var token = req.session.token;
+
+        var r = handler.answerQuestion(req.params.poll, req.params.pregunta, req.params.respuesta, token);
+
+        if (r) {
+            return res.json({
+                status: 'OK',
+                ok: true,
+                poll: req.params.poll,
+                pregunta: req.params.pregunta
+            });
+        } else {
+            return res.json({
+                status: 'FAIL',
+                ok: false,
+                poll: req.params.poll,
+                pregunta: req.params.pregunta
+            });
+        }
+    });*/</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>PUT <code>/:poll</code> responde al poll</p></div></div><div class="code"><div class="wrapper">    app.put(<span class="hljs-string">'/:poll'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+        <span class="hljs-keyword">var</span> token = req.session.token;
+        <span class="hljs-keyword">var</span> answers = req.body.answers;
+        <span class="hljs-keyword">var</span> poll = req.params.poll;
+
+        <span class="hljs-keyword">var</span> correct = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> incorrect = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; answers.length; i++) {
+            <span class="hljs-keyword">var</span> r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token);
+            <span class="hljs-keyword">if</span> (r) correct++;
+            <span class="hljs-keyword">else</span> incorrect++;
+        }
+
+        <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({
+            poll: req.params.poll,
+            updates: correct,
+            failedUpdates: incorrect
+        });
+    });
+};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>Exports:</strong> function(app,handler)
+Función para añadir las rutas a la app express dada junto con el manejador de base de datos <em>handler</em></p></div></div></div></div></body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><title>test/loki</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="test/loki"><meta name="groc-project-path" content="test/loki.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/test/loki.js">test/loki.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="test-base-de-datos">Test - Base de Datos</h1>
+<p>Tests sobre la base de datos LokiJS usando mocha</p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="dependencias">Dependencias</h2>
+<ul>
+<li><strong>Should:</strong> Módulo de aserciones de estilo BDD</li>
+<li><strong>Fs:</strong> Módulo nativo de gestión del sistema de ficheros</li>
+<li><strong>Supertest-session:</strong> Módulo de conexiones HTTP con sesiones para tests.</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> should = <span class="hljs-built_in">require</span>(<span class="hljs-string">'should'</span>);
+<span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">var</span> supertest = <span class="hljs-built_in">require</span>(<span class="hljs-string">'supertest-session'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="dependencias-locales">Dependencias locales</h3>
+<ul>
+<li><a href="../config.html"><strong>Config</strong></a>: Configuración general de Polleitor<ul>
+<li>Modificación en <code>loki_db_name</code></li>
+</ul>
+</li>
+<li><a href="./init.html"><strong>Test Init</strong></a>: Inicialización de servidor de prueba</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../app/config'</span>);
+config.loki_db_name = <span class="hljs-string">"test.json"</span>;
+<span class="hljs-keyword">var</span> testInit = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./init'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="configuracin">Configuración</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>loki_db_name: <code>test.json</code><ul>
+<li>Nombre del archivo para almacenar la base de datos</li>
+</ul>
+</li>
+<li>poll: Configuración del Poll a usar de pruebas</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> poll = <span class="hljs-built_in">Object</span>.keys(config.polls)[<span class="hljs-number">0</span>];</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="pruebas-de-la-base-de-datos-loki">Pruebas de la Base de datos Loki</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Pruebas sobre la interfaz de la base de datos</p>
+<ul>
+<li><em>before:</em> Inicia el servidor y base de datos, elimina fichero de prueba si existe</li>
+<li><em>after:</em> Cierra el servidor y elimina el archivo de la base de datos de prueba</li>
+</ul></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Loki'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> app;
+    <span class="hljs-keyword">var</span> dbHandler;
+    <span class="hljs-keyword">var</span> request;
+    before(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+        <span class="hljs-keyword">try</span> {
+            fs.unlinkSync(<span class="hljs-string">'./test.json'</span>); <span class="hljs-comment">//Deletes file, fails if not file found</span>
+        } <span class="hljs-keyword">catch</span> (err) {}
+        testInit.init(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">app2, handler</span>) </span>{
+            should.exist(app2);
+            should.exist(handler);
+            app = app2;
+            dbHandler = handler;
+            request = supertest(app);
+
+            done();
+        });
+    });
+    after(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        testInit.close();
+        <span class="hljs-keyword">try</span> {
+            fs.unlinkSync(<span class="hljs-string">'./test.json'</span>);
+        } <span class="hljs-keyword">catch</span> (err) {}
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>Check polls:</strong> Comprueba que los polls se han generado correctamente y el funcionamiento de checkPoll</li>
+</ul></div></div><div class="code"><div class="wrapper">    it(<span class="hljs-string">'Check polls'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+        dbHandler.checkPoll(poll).should.be.true();
+        <span class="hljs-keyword">var</span> testPoll = dbHandler.getPoll(poll);
+        testPoll.should.be.an.Array();
+        should.exist(testPoll[<span class="hljs-number">0</span>]);
+        should.exist(testPoll[<span class="hljs-number">0</span>].question);
+        should.exist(testPoll[<span class="hljs-number">0</span>].options);
+        should.exist(testPoll[<span class="hljs-number">0</span>].id);
+        testPoll = dbHandler.getPoll(<span class="hljs-string">'test2foo'</span>);
+        should.not.exist(testPoll);
+        dbHandler.checkPoll(<span class="hljs-string">'test2foo'</span>).should.be.false();
+        done();
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li><strong>Database Save:</strong> Comprueba que se genera el fichero de la base de datos</li>
+</ul></div></div><div class="code"><div class="wrapper">    it(<span class="hljs-string">'Database Save'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-string">'../app/dbHandler'</span>)(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">handler</span>) </span>{
+            should.exist(handler);
+            handler.answerQuestion(poll, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-string">"mytoken"</span>);
+            <span class="hljs-comment">//<span class="hljs-doctag">TODO:</span> comprobar que el fichero es correcto</span>
+            <span class="hljs-keyword">try</span> {
+                fs.unlinkSync(<span class="hljs-string">'./test.json'</span>); <span class="hljs-comment">//Borra el fichero, falla si no existe</span>
+            } <span class="hljs-keyword">catch</span> (err) {
+                should.not.exist(err);
+            }
+            done();
+        }, <span class="hljs-literal">true</span>);
+    });
+});</div></div></div></div></body></html>
