@@ -104,7 +104,7 @@ $(function() {
 		for ( var i in res ) {
                     this_div.append("<p>" + res[i].question + "</p>");
                     for ( var j in res[i].options) {
-			this_div.append("<button type='button' class='submit' data-question='"
+			this_div.append("<button round big  class='width-2' type='primary' class='submit' data-question='"
 					+ i + "' data-poll='"+name+"' id='" + j + "' value='" + res[i].id
 					+  "'name='" +name + "-" + j + "'>" + res[i].options[j] + "</button>");
                     }
