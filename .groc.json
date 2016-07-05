@@ -1,4 +1,4 @@
 {
-  "glob": ["README.md", "server.js", "app/*js", "test/*.js"],
+  "glob": ["README.md", "server.js", "app/*js", "test/*.js", "public/js/polleitor.js"],
   "github": true
 }
