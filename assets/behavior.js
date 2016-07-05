@@ -13,7 +13,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "commentsOnly": true,
           "name": "Markdown"
         },
-        "sourcePath": "/home/andrew/Documents/osl/polleitor/README.md",
+        "sourcePath": "/home/jmerelo/Code/polleitor/README.md",
         "projectPath": "README.md",
         "targetPath": "index",
         "pageTitle": "index",
@@ -32,7 +32,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/config.js",
+        "sourcePath": "/home/jmerelo/Code/polleitor/app/config.js",
         "projectPath": "app/config.js",
         "targetPath": "config",
         "pageTitle": "config",
@@ -51,7 +51,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/dbHandler.js",
+        "sourcePath": "/home/jmerelo/Code/polleitor/app/dbHandler.js",
         "projectPath": "app/dbHandler.js",
         "targetPath": "dbHandler",
         "pageTitle": "dbHandler",
@@ -70,7 +70,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/routes.js",
+        "sourcePath": "/home/jmerelo/Code/polleitor/app/routes.js",
         "projectPath": "app/routes.js",
         "targetPath": "routes",
         "pageTitle": "routes",
@@ -89,7 +89,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/andrew/Documents/osl/polleitor/server.js",
+        "sourcePath": "/home/jmerelo/Code/polleitor/server.js",
         "projectPath": "server.js",
         "targetPath": "server",
         "pageTitle": "server",
@@ -116,7 +116,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/init.js",
+            "sourcePath": "/home/jmerelo/Code/polleitor/test/init.js",
             "projectPath": "test/init.js",
             "targetPath": "test/init",
             "pageTitle": "test/init",
@@ -135,7 +135,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/loki.js",
+            "sourcePath": "/home/jmerelo/Code/polleitor/test/loki.js",
             "projectPath": "test/loki.js",
             "targetPath": "test/loki",
             "pageTitle": "test/loki",
@@ -154,7 +154,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/routes.js",
+            "sourcePath": "/home/jmerelo/Code/polleitor/test/routes.js",
             "projectPath": "test/routes.js",
             "targetPath": "test/routes",
             "pageTitle": "test/routes",
