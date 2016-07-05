@@ -226,6 +226,56 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }
       ]
     }, {
+      "type": "folder",
+      "data": {
+        "path": "public",
+        "title": "public"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "folder",
+          "data": {
+            "path": "public/js",
+            "title": "js"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/home/andrew/Documents/osl/polleitor/public/js/polleitor.js",
+                "projectPath": "public/js/polleitor.js",
+                "targetPath": "public/js/polleitor",
+                "pageTitle": "public/js/polleitor",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Polleitor Client",
+                    "slug": "polleitor-client",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "Polleitor Client"
+              },
+              "depth": 3,
+              "outline": []
+            }
+          ]
+        }
+      ]
+    }, {
       "type": "file",
       "data": {
         "language": {

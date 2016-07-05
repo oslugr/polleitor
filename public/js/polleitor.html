@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en"><head><title>public/js/polleitor</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="public/js/polleitor"><meta name="groc-project-path" content="public/js/polleitor.js"><meta name="groc-github-url" content="https://github.com/oslugr/polleitor"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/oslugr/polleitor/blob/master/public/js/polleitor.js">public/js/polleitor.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="polleitor-client">Polleitor Client</h1>
+<p>Cliente de <strong>polleitor</strong></p></div></div><div class="code"><div class="wrapper"><span class="hljs-comment">//Desarrollado por la Oficina de Software Libre bajo licencia MIT</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>getPoll(poll,done)</code> Obtiene la poll del servidor, ejecuta el callback <code>done(err,poll)</code></p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getPoll</span>(<span class="hljs-params">poll, done</span>) </span>{
+    $.ajax({
+        url: <span class="hljs-string">'/'</span> + poll,
+        type: <span class="hljs-string">"GET"</span>,
+        cache: <span class="hljs-literal">false</span>,
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+            done(<span class="hljs-literal">null</span>, data);
+        },
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">xhr, status, err</span>) </span>{
+            done(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err));
+        }
+    });
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>getAnswers(poll,done)</code> Similar a getPoll, pero incluye además las respuestas</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAnswers</span>(<span class="hljs-params">poll, done</span>) </span>{
+    $.ajax({
+        url: <span class="hljs-string">'/'</span> + poll + <span class="hljs-string">'/resultados'</span>,
+        type: <span class="hljs-string">"GET"</span>,
+        cache: <span class="hljs-literal">false</span>,
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+            done(<span class="hljs-literal">null</span>, data);
+        },
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">xhr, status, err</span>) </span>{
+            done(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err));
+        }
+    });
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>postAnswers(poll,answers,done)</code> envía las respuestas a una poll, como un array de enteros, ejecuta el callback con el resultado del servidor</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postAnswers</span>(<span class="hljs-params">poll, answers, done</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(answers);
+    $.ajax({
+        url: <span class="hljs-string">'/'</span> + poll,
+        type: <span class="hljs-string">"PUT"</span>,
+        data: <span class="hljs-built_in">JSON</span>.stringify({
+            <span class="hljs-string">"answers"</span>: answers
+        }),
+        contentType: <span class="hljs-string">'application/json'</span>,
+        cache: <span class="hljs-literal">false</span>,
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+            done(<span class="hljs-literal">null</span>, data);
+        },
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">xhr, status, err</span>) </span>{
+            done(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err));
+        }
+    });
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>plot_chart(poll_id,chart_id)</code> Dibuja los resultados de una poll en el objeto con id <em>chat_id</em></p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">plot_chart</span>(<span class="hljs-params">poll_id, chart_id</span>) </span>{
+    getAnswers(poll_id, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error, answers</span>) </span>{
+
+        <span class="hljs-built_in">console</span>.log(answers);
+        <span class="hljs-keyword">var</span> answer = answers[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">var</span> chart_label = answer.question;
+        <span class="hljs-keyword">var</span> ctx = <span class="hljs-built_in">document</span>.getElementById(chart_id);
+        <span class="hljs-keyword">var</span> myChart = <span class="hljs-keyword">new</span> Chart(ctx, {
+            type: <span class="hljs-string">'bar'</span>,
+            data: {
+                labels: answer.options,
+                datasets: [{
+                    label: chart_label,
+                    data: answer.answers,
+                    backgroundColor: [
+                        <span class="hljs-string">'rgba(255, 99, 132, 0.2)'</span>,
+                        <span class="hljs-string">'rgba(54, 162, 235, 0.2)'</span>,
+                        <span class="hljs-string">'rgba(255, 206, 86, 0.2)'</span>,
+                        <span class="hljs-string">'rgba(75, 192, 192, 0.2)'</span>,
+                        <span class="hljs-string">'rgba(153, 102, 255, 0.2)'</span>,
+                        <span class="hljs-string">'rgba(255, 159, 64, 0.2)'</span>
+                    ],
+                    borderColor: [
+                        <span class="hljs-string">'rgba(255,99,132,1)'</span>,
+                        <span class="hljs-string">'rgba(54, 162, 235, 1)'</span>,
+                        <span class="hljs-string">'rgba(255, 206, 86, 1)'</span>,
+                        <span class="hljs-string">'rgba(75, 192, 192, 1)'</span>,
+                        <span class="hljs-string">'rgba(153, 102, 255, 1)'</span>,
+                        <span class="hljs-string">'rgba(255, 159, 64, 1)'</span>
+                    ],
+                    borderWidth: <span class="hljs-number">1</span>
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: <span class="hljs-literal">true</span>
+                        }
+                    }]
+                }
+            }
+        });
+    });
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Genera una poll para todos los objetos de clase poll en el html</p></div></div><div class="code"><div class="wrapper">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    $(<span class="hljs-string">".poll"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> this_div = $(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">var</span> name = this_div.attr(<span class="hljs-string">'data-poll-name'</span>);
+
+        getPoll(name, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, res</span>) </span>{
+
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.log(err);
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> res) {
+                    this_div.append(<span class="hljs-string">"&lt;p&gt;"</span> + res[i].question + <span class="hljs-string">"&lt;/p&gt;"</span>);
+                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j <span class="hljs-keyword">in</span> res[i].options) {
+                        this_div.append(<span class="hljs-string">"&lt;button round big  class='width-2' type='primary' class='submit' data-question='"</span> + i + <span class="hljs-string">"' data-poll='"</span> + name + <span class="hljs-string">"' id='"</span> + j + <span class="hljs-string">"' value='"</span> + res[i].id + <span class="hljs-string">"'name='"</span> + name + <span class="hljs-string">"-"</span> + j + <span class="hljs-string">"'&gt;"</span> + res[i].options[j] + <span class="hljs-string">"&lt;/button&gt;"</span>);
+                    }
+                }
+            }
+        });
+
+    });
+
+});
+
+<span class="hljs-comment">//Binding a elementos generados dinámicamente según http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Envía respuesta al realizar click</p></div></div><div class="code"><div class="wrapper">$(<span class="hljs-built_in">document</span>).on(<span class="hljs-string">"click"</span>, <span class="hljs-string">".submit"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Answer</span>(<span class="hljs-params">id, answer</span>) </span>{
+        <span class="hljs-keyword">this</span>.id = id;
+        <span class="hljs-keyword">this</span>.answer = answer;
+    }
+
+    <span class="hljs-keyword">var</span> answer = <span class="hljs-keyword">new</span> Answer($(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">"value"</span>), $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'id'</span>));
+    <span class="hljs-keyword">var</span> name = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'data-poll'</span>);
+    $(<span class="hljs-string">"button[data-poll='"</span> + name + <span class="hljs-string">"']"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">true</span>);
+    });
+    <span class="hljs-built_in">console</span>.log(answer);
+    postAnswers(name, [answer], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, res</span>) </span>{
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-built_in">console</span>.log(err);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-built_in">console</span>.log(res);
+        }
+    });
+});</div></div></div></div></body></html>
