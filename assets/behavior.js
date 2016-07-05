@@ -13,13 +13,77 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "commentsOnly": true,
           "name": "Markdown"
         },
-        "sourcePath": "/home/jmerelo/Code/polleitor/README.md",
+        "sourcePath": "/home/andrew/Documents/osl/polleitor/README.md",
         "projectPath": "README.md",
         "targetPath": "index",
         "pageTitle": "index",
-        "title": "index"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Polleitor",
+            "slug": "polleitor",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Instalación",
+                "slug": "instalacin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Documentación",
+                "slug": "documentacin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "API",
+                "slug": "api"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Polleitor"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Instalación",
+            "slug": "instalacin"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Documentación",
+            "slug": "documentacin"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "API",
+            "slug": "api"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -32,13 +96,24 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/jmerelo/Code/polleitor/app/config.js",
+        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/config.js",
         "projectPath": "app/config.js",
         "targetPath": "config",
         "pageTitle": "config",
-        "title": "config"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Configuración de polleitor",
+            "slug": "configuracin-de-polleitor",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Configuración de polleitor"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -51,13 +126,105 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/jmerelo/Code/polleitor/app/dbHandler.js",
+        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/dbHandler.js",
         "projectPath": "app/dbHandler.js",
         "targetPath": "dbHandler",
         "pageTitle": "dbHandler",
-        "title": "dbHandler"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Database Handler",
+            "slug": "database-handler",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias Locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Conexión con Lokijs",
+                "slug": "conexin-con-lokijs"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 4,
+                    "title": "DB Handler",
+                    "slug": "db-handler"
+                  },
+                  "depth": 4
+                }
+              ]
+            }
+          ]
+        },
+        "title": "Database Handler"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Dependencias",
+            "slug": "dependencias"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Dependencias Locales",
+                "slug": "dependencias-locales"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Conexión con Lokijs",
+            "slug": "conexin-con-lokijs"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 4,
+                "title": "DB Handler",
+                "slug": "db-handler"
+              },
+              "depth": 4
+            }
+          ]
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -70,13 +237,83 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/jmerelo/Code/polleitor/app/routes.js",
+        "sourcePath": "/home/andrew/Documents/osl/polleitor/app/routes.js",
         "projectPath": "app/routes.js",
         "targetPath": "routes",
         "pageTitle": "routes",
-        "title": "routes"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Configuración de rutas",
+            "slug": "configuracin-de-rutas",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Rutas",
+                "slug": "rutas"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Configuración de rutas"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Dependencias",
+            "slug": "dependencias"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Dependencias locales",
+                "slug": "dependencias-locales"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Rutas",
+            "slug": "rutas"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -89,13 +326,99 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/home/jmerelo/Code/polleitor/server.js",
+        "sourcePath": "/home/andrew/Documents/osl/polleitor/server.js",
         "projectPath": "server.js",
         "targetPath": "server",
         "pageTitle": "server",
-        "title": "server"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Main app",
+            "slug": "main-app",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Configuración",
+                "slug": "configuracin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Middlewares",
+                "slug": "middlewares"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Main app"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Dependencias",
+            "slug": "dependencias"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Dependencias locales",
+                "slug": "dependencias-locales"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Configuración",
+            "slug": "configuracin"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Middlewares",
+            "slug": "middlewares"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "folder",
       "data": {
@@ -116,13 +439,99 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/jmerelo/Code/polleitor/test/init.js",
+            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/init.js",
             "projectPath": "test/init.js",
             "targetPath": "test/init",
             "pageTitle": "test/init",
-            "title": "init"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Init Tests",
+                "slug": "init-tests",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Dependencias",
+                    "slug": "dependencias"
+                  },
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Dependencias locales",
+                        "slug": "dependencias-locales"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Configuración",
+                    "slug": "configuracin"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Middlewares",
+                    "slug": "middlewares"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Init Tests"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Configuración",
+                "slug": "configuracin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Middlewares",
+                "slug": "middlewares"
+              },
+              "depth": 2
+            }
+          ]
         }, {
           "type": "file",
           "data": {
@@ -135,13 +544,99 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/jmerelo/Code/polleitor/test/loki.js",
+            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/loki.js",
             "projectPath": "test/loki.js",
             "targetPath": "test/loki",
             "pageTitle": "test/loki",
-            "title": "loki"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Test - Base de Datos",
+                "slug": "test-base-de-datos",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Dependencias",
+                    "slug": "dependencias"
+                  },
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Dependencias locales",
+                        "slug": "dependencias-locales"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Configuración",
+                    "slug": "configuracin"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Pruebas de la Base de datos Loki",
+                    "slug": "pruebas-de-la-base-de-datos-loki"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Test - Base de Datos"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Configuración",
+                "slug": "configuracin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Pruebas de la Base de datos Loki",
+                "slug": "pruebas-de-la-base-de-datos-loki"
+              },
+              "depth": 2
+            }
+          ]
         }, {
           "type": "file",
           "data": {
@@ -154,13 +649,99 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/jmerelo/Code/polleitor/test/routes.js",
+            "sourcePath": "/home/andrew/Documents/osl/polleitor/test/routes.js",
             "projectPath": "test/routes.js",
             "targetPath": "test/routes",
             "pageTitle": "test/routes",
-            "title": "routes"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Test - Rutas",
+                "slug": "test-rutas",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Dependencias",
+                    "slug": "dependencias"
+                  },
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Dependencias locales",
+                        "slug": "dependencias-locales"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Configuración",
+                    "slug": "configuracin"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Pruebas de Rutas",
+                    "slug": "pruebas-de-rutas"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Test - Rutas"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Dependencias",
+                "slug": "dependencias"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Dependencias locales",
+                    "slug": "dependencias-locales"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Configuración",
+                "slug": "configuracin"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Pruebas de Rutas",
+                "slug": "pruebas-de-rutas"
+              },
+              "depth": 2
+            }
+          ]
         }
       ]
     }
