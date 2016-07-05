@@ -25,7 +25,8 @@
         "test": "istanbul cover _mocha",
         "start": "node server.js",
         "coveralls": "cat ./coverage/lcov.info | coveralls",
-        "jshint": "jshint *.json *.js app/*.js test/*.js"
+        "jshint": "jshint *.json *.js app/*.js test/*.js",
+        "build_doc": "groc"
     },
     "repository": {
         "type": "git",
