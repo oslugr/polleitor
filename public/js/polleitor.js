@@ -57,7 +57,6 @@ function postAnswers(poll, answers, done) {
 // `plot_chart(poll_id,chart_id)` Dibuja los resultados de una poll en el objeto con id _chat\_id_
 function plot_chart(poll_id, chart_id) {
     getAnswers(poll_id, function(error, answers) {
-
         console.log(answers);
         var answer = answers[0];
         var chart_label = answer.question;
@@ -115,7 +114,7 @@ $(function() {
                 for (var i in res) {
                     this_div.append("<p>" + res[i].question + "</p>");
                     for (var j in res[i].options) {
-                        this_div.append("<button round big  class='width-2' type='primary' class='submit' data-question='" + i + "' data-poll='" + name + "' id='" + j + "' value='" + res[i].id + "'name='" + name + "-" + j + "'>" + res[i].options[j] + "</button>");
+                        this_div.append("<button round big  class='width-2 submit' type='primary' data-question='" + i + "' data-poll='" + name + "' id='" + j + "' value='" + res[i].id + "'name='" + name + "-" + j + "'>" + res[i].options[j] + "</button>");
                     }
                 }
             }
