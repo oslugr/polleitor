@@ -144,11 +144,17 @@ module.exports = function(app, handler) {
 
         var correct = 0;
         var incorrect = 0;
-
         for (var i = 0; i < answers.length; i++) {
             var r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token);
             if (r) correct++;
             else incorrect++;
+            console.log(JSON.stringify({
+                poll: req.params.poll,
+                id: answers[i].id,
+                answer: answers[i].answer,
+                updated: correct,
+                failed: incorrect
+            }));
         }
 
         return res.status(200).json({
