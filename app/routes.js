@@ -145,7 +145,7 @@ module.exports = function(app, handler) {
         var correct = 0;
         var incorrect = 0;
         for (var i = 0; i < answers.length; i++) {
-            var r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token);
+            var r = handler.answerQuestion(poll, answers[i].id, answers[i].answer, token,agent);
             if (r) correct++;
             else incorrect++;
             console.log(JSON.stringify({

@@ -49,13 +49,13 @@ module.exports = function(done,save) {
                 id: q.$loki
             };
         },*/
-        // * **answerQuestion(poll,id,answer,token):** Responde la pregunta del id dado dnetro del poll. La respuesta será el índice _answer_ de la opción elegida.La respuesta será asignada al token enviado.
-        answerQuestion: function(poll, id, answer, token) {
+        // * **answerQuestion(poll,id,answer,token):** Responde la pregunta del id dado dentro del poll. La respuesta será el índice _answer_ de la opción elegida.La respuesta será asignada al token enviado.
+        answerQuestion: function(poll, id, answer, token,agent) {
             var coll = db.getCollection(poll);
             var q = coll.get(id);
             if (!coll || !token || !q || q.answers[token] !== undefined || answer < 0 || answer >= q.options.length) return false;
             else {
-                q.answers[token] = answer;
+                q.answers[token] = {id:answer,meta:agent};
                 coll.update(q);
                 if(save) db.saveDatabase();
                 return true;
@@ -83,12 +83,12 @@ module.exports = function(done,save) {
             if (!this.checkPoll(poll)) return null;
             var answers = db.getCollection(poll).data.map(function(question) {
                 var results = [];
+                console.log(JSON.stringify(question));
                 for (var i = 0; i < question.options.length; i++) {
                     results[i] = 0;
                 }
                 for (i in question.answers) {
-                    results[question.answers[i]]++;
-
+                    results[question.answers[i].id]++;
                 }
                 return {
                     question: question.question,
