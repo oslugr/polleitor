@@ -64,7 +64,6 @@ module.exports = function(app, handler) {
     // GET `/:poll`: Devuelve las preguntas y posibles respuestas del poll
     app.get('/:poll', function(req, res) {
         var questions = handler.getPoll(req.params.poll);
-
         if (!questions) {
             return res.status(404).json({
                 status: 404,
@@ -141,7 +140,8 @@ module.exports = function(app, handler) {
         var token = req.session.token;
         var answers = req.body.answers;
         var poll = req.params.poll;
-
+        var agent = useragent.parse(req.headers['user-agent']);
+        
         var correct = 0;
         var incorrect = 0;
         for (var i = 0; i < answers.length; i++) {
@@ -153,7 +153,9 @@ module.exports = function(app, handler) {
                 id: answers[i].id,
                 answer: answers[i].answer,
                 updated: correct,
-                failed: incorrect
+                failed: incorrect,
+                browser: agent.family,
+                os: agent.os.family
             }));
         }
 
