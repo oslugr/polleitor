@@ -36,7 +36,7 @@ Si usas [Heroku](http://heroku.com), cambia `repository` en el fichero de config
 	git push heroku master
 
 
-##Documentación
+## Documentación
 
 Generar esta documentación:
 ```bash
@@ -62,6 +62,8 @@ Se accede al servicio mediante una API REST:
 | GET        |`:poll`             | Devuelve las preguntas de una encuesta |Sin cuerpo en la petición|`[{question,[options],id}]`|
 | GET        |`:poll/resultados`  | Devuelve el poll y los resultados|Sin cuerpo en la petición|`[{question,[options],id,[answers]}]`|
 | PUT        |`:poll`             | Envía respuestas a las preguntas de un poll |`[{id,answer}]`|`{poll,updates,failedUpdates}`|
+
+## Quien ha montado esto
 
 > Desarrollado por la Oficina de Software Libre bajo licencia MIT
 > Documentación completa en <https://oslugr.github.io/polleitor>
